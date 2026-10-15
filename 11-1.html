@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11-1</title>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f6fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    th {
+      background: #34495e;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .hao_demo {
+      font-weight: bold;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>web前端 — 长度单位</h1>
+  <table>
+    <tr>
+      <th>单位</th>
+      <th>说明</th>
+      <th>示例</th>
+    </tr>
+    <tr>
+      <td>px</td>
+      <td>像素，绝对单位，屏幕上的一个点</td>
+      <td class="hao_demo" style="font-size: 20px;">20px 文字</td>
+    </tr>
+    <tr>
+      <td>em</td>
+      <td>相对于父元素字体大小，1em = 父元素 font-size</td>
+      <td class="hao_demo" style="font-size: 1.5em;">1.5em 文字</td>
+    </tr>
+    <tr>
+      <td>rem</td>
+      <td>相对于根元素(html)字体大小，1rem = 16px（默认）</td>
+      <td class="hao_demo" style="font-size: 1.25rem;">1.25rem 文字</td>
+    </tr>
+    <tr>
+      <td>%</td>
+      <td>百分比，相对于父元素的对应属性</td>
+      <td class="hao_demo" style="font-size: 120%;">120% 文字</td>
+    </tr>
+    <tr>
+      <td>vw</td>
+      <td>视口宽度，1vw = 视口宽度的 1%</td>
+      <td class="hao_demo" style="font-size: 2vw;">2vw 文字</td>
+    </tr>
+    <tr>
+      <td>vh</td>
+      <td>视口高度，1vh = 视口高度的 1%</td>
+      <td class="hao_demo" style="font-size: 2vh;">2vh 文字</td>
+    </tr>
+    <tr>
+      <td>vmin</td>
+      <td>视口宽高较小值的 1%</td>
+      <td class="hao_demo" style="font-size: 2vmin;">2vmin 文字</td>
+    </tr>
+    <tr>
+      <td>vmax</td>
+      <td>视口宽高较大值的 1%</td>
+      <td class="hao_demo" style="font-size: 2vmax;">2vmax 文字</td>
+    </tr>
+    <tr>
+      <td>pt</td>
+      <td>磅，1pt = 1/72 英寸</td>
+      <td class="hao_demo" style="font-size: 14pt;">14pt 文字</td>
+    </tr>
+    <tr>
+      <td>cm / mm / in</td>
+      <td>物理长度单位：厘米 / 毫米 / 英寸</td>
+      <td class="hao_demo">常用于打印</td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 动画幻灯片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+
+        /* 幻灯片容器 */
+        .slider {
+            position: relative;
+            width: 620px;
+            max-width: 92vw;
+            height: 440px;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 每一张幻灯片：上图下文，绝对定位叠放在一起 */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column; /* 上图下文 */
+        }
+
+        /* 图片在上，固定高度 */
+        .img-wrap {
+            height: 360px;
+            overflow: hidden;
+        }
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 文字在下 */
+        .caption {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #173f4f;
+            background: #ffffff;
+            border-top: 4px solid #5f9ea0;
+        }
+
+        /* 三张图片滑动切换，12 秒一轮：1→2 向左，2→3 向上，3→1 向左 */
+        .slide-1 { animation: slide1 12s ease-in-out infinite; }
+        .slide-2 { animation: slide2 12s ease-in-out infinite; }
+        .slide-3 { animation: slide3 12s ease-in-out infinite; }
+
+        /* 1.jpg：先显示，然后向左滑出；下一轮再从右侧滑入 */
+        @keyframes slide1 {
+            0%      { transform: translate(0, 0); }
+            25%     { transform: translate(0, 0); }
+            33.33%  { transform: translate(-100%, 0); }
+            50%     { transform: translate(-100%, 0); animation-timing-function: step-end; }
+            50.01%  { transform: translate(100%, 0); }
+            91.67%  { transform: translate(100%, 0); }
+            100%    { transform: translate(0, 0); }
+        }
+
+        /* 2.jpg：从右侧滑入，然后向上滑出；下一轮回到右侧待命 */
+        @keyframes slide2 {
+            0%      { transform: translate(100%, 0); }
+            25%     { transform: translate(100%, 0); }
+            33.33%  { transform: translate(0, 0); }
+            58.33%  { transform: translate(0, 0); }
+            66.67%  { transform: translate(0, -100%); }
+            83.33%  { transform: translate(0, -100%); animation-timing-function: step-end; }
+            83.34%  { transform: translate(100%, 0); }
+            100%    { transform: translate(100%, 0); }
+        }
+
+        /* 3.jpg：从下方滑入，然后向左滑出；循环回下方待命 */
+        @keyframes slide3 {
+            0%      { transform: translate(0, 100%); }
+            58.33%  { transform: translate(0, 100%); }
+            66.67%  { transform: translate(0, 0); }
+            91.67%  { transform: translate(0, 0); }
+            100%    { transform: translate(-100%, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="slide slide-1">
+            <div class="img-wrap"><img src="./img/1.jpg" alt="图片1"></div>
+            <div class="caption">图一 · 向左滑出</div>
+        </div>
+        <div class="slide slide-2">
+            <div class="img-wrap"><img src="./img/2.jpg" alt="图片2"></div>
+            <div class="caption">图二 · 向上滑出</div>
+        </div>
+        <div class="slide slide-3">
+            <div class="img-wrap"><img src="./img/3.jpg" alt="图片3"></div>
+            <div class="caption">图三 · 向左滑出</div>
+        </div>
+    </div>
+</body>
+</html>

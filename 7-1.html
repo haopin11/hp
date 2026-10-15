@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        ul{
+            list-style:none;
+        }
+        img{}
+        .list{
+            display:flex;
+        }
+        .ilist li{
+            width:30%;
+            margin-right:3px;
+            flex-grow:1;
+            position:relative;
+        }
+        .ilist img{
+            width:100%
+        }    
+        .ilist p{
+          /* 居中 */
+          text-align:center;
+          font-size:14px;
+          line-height:33px;
+          /*绝对定位*/
+          position:absolute;
+          left:0;
+          bottom:0;
+          width:100%;
+          background-color: burlywood;
+          color:#fff;
+        }
+            
+    </style>
+</head>
+<body>
+    <ul class="list">
+         <li><img src="./img/1.jpg" alt=""><p>郝品的上图下文</p></li>
+         <li><img src="./img/2.jpg" alt=""><p>图片2</p></li>
+         <li><img src="./img/3.jpg" alt=""><p>图片3</p></li>
+    </ul>
+</body>
+
+</html>

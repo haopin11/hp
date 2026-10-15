@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>媒体查询布局 · 八盒子响应式栅格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        /* 页面最小宽度 320px */
+        body {
+            min-width: 320px;
+            padding: 1.5rem;
+            background: #f0f3f7;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #173f4f;
+            margin-bottom: 0.5rem;
+        }
+
+        .note {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #7a949c;
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            display: block;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #3b8d99;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        /* 用伪元素显示当前每行盒子数量 */
+        .status::after { content: "当前：每行 1 个盒子"; }
+
+        /* 栅格容器：默认（320px–480px）每行 1 个 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+        }
+
+        .box {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b8d99, #5f9ea0);
+            box-shadow: 0 6px 16px rgba(59, 141, 153, 0.22);
+        }
+
+        /* ① 手机 481px–768px：每行 2 个 */
+        @media (min-width: 481px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .status::after { content: "当前：每行 2 个盒子"; }
+        }
+
+        /* ② 平板 769px–1024px：每行 4 个 */
+        @media (min-width: 769px) {
+            .grid { grid-template-columns: repeat(4, 1fr); }
+            .status::after { content: "当前：每行 4 个盒子"; }
+        }
+
+        /* ③ 桌面 ≥1025px：每行 8 个 */
+        @media (min-width: 1025px) {
+            .grid { grid-template-columns: repeat(8, 1fr); }
+            .status::after { content: "当前：每行 8 个盒子"; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>郝品的响应式八盒子布局</h1>
+        <p class="note">拖动改变视口宽度，每行显示的盒子数量随之变化（1 → 2 → 4 → 8）</p>
+        <span class="status"></span>
+
+        <div class="grid">
+            <div class="box">盒子 1</div>
+            <div class="box">盒子 2</div>
+            <div class="box">盒子 3</div>
+            <div class="box">盒子 4</div>
+            <div class="box">盒子 5</div>
+            <div class="box">盒子 6</div>
+            <div class="box">盒子 7</div>
+            <div class="box">盒子 8</div>
+        </div>
+    </div>
+</body>
+</html>

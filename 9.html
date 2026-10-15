@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>背景颜色随时间变化</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
+            /* 动画名 时长 缓动 无限循环 */
+            animation: changeColor 8s ease infinite;
+        }
+
+        @keyframes changeColor {
+            0%   { background-color: #ff6b6b; }  /* 红色 */
+            25%  { background-color: #4ecdc4; }  /* 青色 */
+            50%  { background-color: #45b7d1; }  /* 蓝色 */
+            75%  { background-color: #f9ca24; }  /* 黄色 */
+            100% { background-color: #ff6b6b; }  /* 回到红色，形成无缝循环 */
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>

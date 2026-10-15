@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<link>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>632 郝品</title>
+    <style>
+        p{
+            color: red;
+            font-size: 100px;
+        }
+        .text{
+            color: rgb(59, 205, 159);
+        }  /* 类选择器优先级高，覆盖id选择器 优先级：id>class>标签 */
+        #text{
+            color: rgb(161, 87, 198);
+        }
+        .box p{
+            color: rgb(59, 155, 211);
+        }
+        #box #text{
+            color: black;
+        }
+        .text{
+            color: blueviolet!important;  /* !important 优先级最高，覆盖所有选择器  hack可以覆盖内嵌*/
+        }
+        #box{
+            /*  宽300 高300 灰色背景 距离 字间距5px  */
+            width: 400px;
+            height: 600px;
+            background: #a0a8e3;
+            margin: 50px auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 12px;
+            font-size: 24px;
+            line-height: 1.8;
+            /* 圆角矩形 */
+            border-radius: 12px;
+        }
+    </style>
+    <link rel="stylesheet" href="css.css"></link>
+    <!-- 后定义的覆盖前定义的 -->
+</head>
+<body>
+    <h2>层叠与继承</h2>
+    <div id="box" class="box">
+        <p id="text" class="text">632 郝品</p>
+        <p>层叠与继承的优先级</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>媒体查询 · 响应式全屏盒子</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+
+        /* ===== 基准（小屏手机 ≤480px）=====
+           1rem = 13px，通过修改 html 根字号，让所有 rem 文字自动缩放 */
+        html {
+            font-size: 13px;
+        }
+        
+
+        /* 全屏盒子：铺满整个视口 */
+        .box {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            color: #ffffff;
+            background-color: hsl(0, 70%, 55%); /* ≤320px 红色 */
+            transition: background-color 0.4s ease;
+        }
+
+        /* 文字大小全部使用 rem 作为长度单位 */
+        .box h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.2rem;
+        }
+        .box p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            max-width: 36rem;
+        }
+        .box .label {
+            font-size: 0.9rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 999px;
+        }
+        /* 用伪元素显示当前所处的断点 */
+        .box .label::after {
+            content: "小屏手机 ≤480px";
+        }
+
+        /* ① 文字大小断点：手机 481px–768px */
+        @media (min-width: 481px) {
+            html { font-size: 15px; }
+            .box .label::after { content: "手机 481–768px"; }
+        }
+
+        /* ② 文字大小断点：平板 769px–1024px */
+        @media (min-width: 769px) {
+            html { font-size: 18px; }
+            .box .label::after { content: "平板 769–1024px"; }
+        }
+
+        /* ③ 文字大小断点：桌面 ≥1025px */
+        @media (min-width: 1025px) {
+            html { font-size: 21px; }
+            .box .label::after { content: "桌面 ≥1025px"; }
+        }
+
+        /* ===== 背景颜色：随视口宽度连续变换（色相 0→360° 走满一圈）===== */
+        @media (min-width: 400px)  { .box { background-color: hsl(26,  70%, 55%); } }
+        @media (min-width: 480px)  { .box { background-color: hsl(51,  70%, 55%); } }
+        @media (min-width: 560px)  { .box { background-color: hsl(77,  70%, 55%); } }
+        @media (min-width: 640px)  { .box { background-color: hsl(103, 70%, 55%); } }
+        @media (min-width: 720px)  { .box { background-color: hsl(129, 70%, 55%); } }
+        @media (min-width: 800px)  { .box { background-color: hsl(154, 70%, 55%); } }
+        @media (min-width: 880px)  { .box { background-color: hsl(180, 70%, 55%); } }
+        @media (min-width: 960px)  { .box { background-color: hsl(206, 70%, 55%); } }
+        @media (min-width: 1040px) { .box { background-color: hsl(231, 70%, 55%); } }
+        @media (min-width: 1120px) { .box { background-color: hsl(257, 70%, 55%); } }
+        @media (min-width: 1200px) { .box { background-color: hsl(283, 70%, 55%); } }
+        @media (min-width: 1280px) { .box { background-color: hsl(309, 70%, 55%); } }
+        @media (min-width: 1360px) { .box { background-color: hsl(334, 70%, 55%); } }
+        @media (min-width: 1440px) { .box { background-color: hsl(360, 70%, 55%); } }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>郝品的响应式全屏盒子</h1>
+        <p>拖动改变浏览器视口宽度，背景颜色会连续变换（色相走满一圈），<br>文字大小使用 rem 作为长度单位，随 html 根字号自动缩放。</p>
+        <span class="label"></span>
+    </div>
+</body>
+</html>

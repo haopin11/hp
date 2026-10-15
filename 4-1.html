@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郝品的《高级网页设计》课堂实践</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            /* 渐变背景 */
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(60, 80, 180, 0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #252b48;
+            margin-bottom: 12px;
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:36px;
+            font-size:16px;
+        }
+        hr{
+            border: none;
+            height:2px;
+            background: linear-gradient(90deg, transparent, #7b68ee, transparent);
+            margin:30px 0;
+        }
+        h2 {
+            font-size: 22px;
+            color: #383c60;
+            margin-bottom: 20px;
+            border-left:5px solid #7b68ee;
+            padding-left:14px;
+        }
+        .link-list {
+            list-style: none;
+        }
+        .link-list li {
+            margin:16px 0;
+            padding:16px 20px;
+            background-color: #f6f8ff;
+            border-radius:10px;
+            transition: all 0.3s ease;
+            border:1px solid #e8ebfa;
+        }
+        .link-list li:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(123,104,238,0.18);
+            background-color: #edeaff;
+        }
+        .link-list a {
+            font-size:17px;
+            color: #483d8b;
+            text-decoration: none;
+            font-weight: 600;
+            display:block;
+        }
+        .link-list a::before{
+            content:"📄 ";
+        }
+        .prompt-block {
+            margin-top:20px;
+            padding:20px;
+            background: #212529;
+            color: #89ffd9;
+            border-radius:12px;
+            white-space: pre-wrap;
+            font-family: Consolas,monospace;
+            font-size:14px;
+            line-height:1.7;
+            overflow-x:auto;
+        }
+        footer{
+            margin-top:40px;
+            text-align:center;
+            color:#707494;
+            font-size:15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>郝品的《高级网页设计》课堂实践</h1>
+        <p class="subtitle">计算机24006 | 课堂作品导航页</p>
+        <hr>
+        <h2>作品页面导航</h2>
+        <ul class="link-list">
+            <li><a href="./1.html">1.html</a></li>
+            <li><a href="./2-1.html">2-1.html</a></li>
+            <li><a href="./2-2.html">2-2.html</a></li>
+            <li><a href="./3-1.html">3-1.html</a></li>
+            <li><a href="./3-2.html">3-2.html</a></li>
+            <li><a href="./4-1.html">4-1.html（本次CSS进阶练习）</a></li>
+            <li><a href="./index.html">👉 index.html（当前导航首页）</a></li>
+        </ul>
+
+        <h2>页面提示词原文</h2>
+        <div class="prompt-block">
+创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为郝品的《高级网页设计》课堂实践，美化页面，页面中包括本提示词。
+        </div>
+
+        <footer>
+            © 2026 郝品 | 高级网页设计课程作业
+        </footer>
+    </div>
+</body>
+</html>

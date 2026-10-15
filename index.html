@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郝品的《高级网页设计》课堂实践</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 48px 16px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hero {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 52px 24px 44px;
+        }
+        .hero .avatar {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7fd8c8, #3b8d99);
+            color: #fff;
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 76px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+        }
+        .hero h1 {
+            font-size: 30px;
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            padding: 7px 20px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px);
+        }
+        .main {
+            padding: 36px 40px 46px;
+        }
+        h2 {
+            font-size: 21px;
+            color: #173f4f;
+            margin: 26px 0 18px;
+            padding-left: 14px;
+            border-left: 5px solid #3b8d99;
+        }
+        h2:first-child {
+            margin-top: 0;
+        }
+        .link-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+        .link-list li {
+            border: 1px solid #e4eef1;
+            border-radius: 14px;
+            background: #f6fbfc;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .link-list li:hover {
+            transform: translateY(-5px);
+            background: #eaf6f7;
+            box-shadow: 0 10px 24px rgba(59, 141, 153, 0.22);
+        }
+        .link-list a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px 18px;
+            text-decoration: none;
+            color: #173f4f;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .link-list a .num {
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            background: linear-gradient(135deg, #3b8d99, #5f9ea0);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .link-list a .desc {
+            display: block;
+            color: #7a949c;
+            font-weight: 400;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .link-list a .arrow {
+            margin-left: auto;
+            color: #a7c6cb;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+        .link-list li:hover .arrow {
+            transform: translateX(5px);
+            color: #3b8d99;
+        }
+        .prompt-block {
+            background: #10242b;
+            color: #9ff3d2;
+            border-radius: 14px;
+            padding: 22px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-x: auto;
+            border-left: 4px solid #5f9ea0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 14px;
+            border-top: 1px solid #e0edef;
+        }
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 24px;
+            }
+            .main {
+                padding: 24px 18px 32px;
+            }
+            .link-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="avatar">郝</div>
+            <h1>郝品的《高级网页设计》课堂实践</h1>
+            <span class="badge">课堂作品导航页 · 高级网页设计 · 学号 24001010632</span>
+        </div>
+
+        <div class="main">
+            <h2>作品页面导航（共 20 个页面）</h2>
+            <ul class="link-list">
+                <li>
+                    <a href="./1.html">
+                        <span class="num">1</span>
+                        <span>1.html<span class="desc">个人信息页</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./2-1.html">
+                        <span class="num">2</span>
+                        <span>2-1.html<span class="desc">HTML 元素与语义</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./2-2.html">
+                        <span class="num">3</span>
+                        <span>2-2.html<span class="desc">超链接、图片与表格</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./3-1.html">
+                        <span class="num">4</span>
+                        <span>3-1.html<span class="desc">HTML 表单</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./3-2.html">
+                        <span class="num">5</span>
+                        <span>3-2.html<span class="desc">CSS 选择器与层叠样式表</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./4-1.html">
+                        <span class="num">6</span>
+                        <span>4-1.html<span class="desc">CSS 进阶练习</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./5-1.html">
+                        <span class="num">7</span>
+                        <span>5-1.html<span class="desc">层叠与继承</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./5-2.html">
+                        <span class="num">8</span>
+                        <span>5-2.html<span class="desc">盒模型</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./6-1.html">
+                        <span class="num">9</span>
+                        <span>6-1.html<span class="desc">Flex 弹性布局</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./6-2.html">
+                        <span class="num">10</span>
+                        <span>6-2.html<span class="desc">标题栏样式</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./7-1.html">
+                        <span class="num">11</span>
+                        <span>7-1.html<span class="desc">上图下文图片列表</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./7-2.html">
+                        <span class="num">12</span>
+                        <span>7-2.html<span class="desc">图文列表</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./8-1.html">
+                        <span class="num">13</span>
+                        <span>8-1.html<span class="desc">携程旅行复刻页面（课堂练习）</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./8-2.html">
+                        <span class="num">14</span>
+                        <span>8-2.html<span class="desc">图片悬浮效果</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./ctrip.html">
+                        <span class="num">15</span>
+                        <span>ctrip.html<span class="desc">携程旅行复刻页面（综合项目）</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./9-1.html">
+                        <span class="num">16</span>
+                        <span>9-1.html<span class="desc">CSS 动画幻灯片（三图滑动切换）</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./10-3.html">
+                        <span class="num">17</span>
+                        <span>10-3.html<span class="desc">媒体查询 · 响应式全屏盒子</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./10-4.html">
+                        <span class="num">18</span>
+                        <span>10-4.html<span class="desc">媒体查询布局 · 八盒子响应式栅格</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./11-1.html">
+                        <span class="num">19</span>
+                        <span>11-1.html<span class="desc">web前端 — 长度单位</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./11-2.html">
+                        <span class="num">20</span>
+                        <span>11-2.html<span class="desc">CSS3 3D 动画</span></span>
+                        <span class="arrow">➜</span>
+                    </a>
+                </li>
+            </ul>
+            <h2>页面提示词原文</h2>
+            <div class="prompt-block">创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为郝品的《高级网页设计》课堂实践，美化页面，页面中包括本提示词。</div>
+        </div>
+
+        <footer>
+            © 2026 郝品 | 高级网页设计课程作业
+        </footer>
+    </div>
+</body>
+</html>

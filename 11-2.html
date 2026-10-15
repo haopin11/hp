@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11-2</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      perspective: 1200px;
+      overflow: hidden;
+    }
+    .hao_title {
+      color: #e0e0e0;
+      font-family: "Microsoft YaHei", sans-serif;
+      margin-bottom: 60px;
+      letter-spacing: 2px;
+    }
+    .hao_scene {
+      width: 200px;
+      height: 200px;
+      perspective: 800px;
+    }
+    .hao_cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: hao_rotate 8s linear infinite;
+    }
+    .hao_face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 2px solid #fff;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-family: "Microsoft YaHei", sans-serif;
+      color: #fff;
+      opacity: 0.9;
+    }
+    .hao_front  { transform: translateZ(100px); background: rgba(231, 76, 60, 0.8); }
+    .hao_back   { transform: rotateY(180deg) translateZ(100px); background: rgba(46, 204, 113, 0.8); }
+    .hao_right  { transform: rotateY(90deg) translateZ(100px); background: rgba(52, 152, 219, 0.8); }
+    .hao_left   { transform: rotateY(-90deg) translateZ(100px); background: rgba(241, 196, 15, 0.8); }
+    .hao_top    { transform: rotateX(90deg) translateZ(100px); background: rgba(155, 89, 182, 0.8); }
+    .hao_bottom { transform: rotateX(-90deg) translateZ(100px); background: rgba(230, 126, 34, 0.8); }
+
+    @keyframes hao_rotate {
+      from { transform: rotateX(0deg) rotateY(0deg); }
+      to   { transform: rotateX(360deg) rotateY(360deg); }
+    }
+
+    .hao_note {
+      color: #888;
+      font-family: "Microsoft YaHei", sans-serif;
+      margin-top: 60px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="hao_title">CSS3 3D 动画 — 旋转立方体</h1>
+  <div class="hao_scene">
+    <div class="hao_cube">
+      <div class="hao_face hao_front">前</div>
+      <div class="hao_face hao_back">后</div>
+      <div class="hao_face hao_right">右</div>
+      <div class="hao_face hao_left">左</div>
+      <div class="hao_face hao_top">上</div>
+      <div class="hao_face hao_bottom">下</div>
+    </div>
+  </div>
+  <p class="hao_note">使用 perspective、preserve-3d 与 @keyframes 实现持续旋转</p>
+</body>
+</html>
