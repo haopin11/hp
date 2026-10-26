@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-10-22
+功能名称：移动端底部导航（SVG 图标）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>13-4 · 郝品的移动端底部导航（SVG 图标）</title>
+    <script src="font/iconfont.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: #eef1f5;
+        }
+        .app {
+            width: 100%;
+            min-height: 100vh;
+            background: #f5f6fa;
+            position: relative;
+        }
+        .header {
+            height: 50px;
+            background: #2b7de9;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            letter-spacing: 1px;
+        }
+        .content {
+            padding: 40px 0;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+        .content .icon-big {
+            width: 72px;
+            height: 72px;
+            fill: #c8d6e5;
+            margin-bottom: 12px;
+        }
+        .icon {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+        .tabbar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 56px;
+            padding-bottom: env(safe-area-inset-bottom);
+            background: #fff;
+            border-top: 1px solid #ececec;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            z-index: 100;
+        }
+        .tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: #8a8a8a;
+            text-decoration: none;
+        }
+        .tab .icon-box {
+            position: relative;
+            display: inline-block;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .tab .label {
+            font-size: 11px;
+        }
+        .tab.active {
+            color: #2b7de9;
+        }
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -14px;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            background: #ff3b30;
+            color: #fff;
+            font-size: 10px;
+            line-height: 16px;
+            text-align: center;
+            border-radius: 9px;
+            border: 1px solid #fff;
+            white-space: nowrap;
+        }
+        .dot {
+            position: absolute;
+            top: -3px;
+            right: -8px;
+            width: 8px;
+            height: 8px;
+            background: #ff3b30;
+            border-radius: 50%;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">携程旅行</div>
+        <div class="content">
+            <svg class="icon icon-big" aria-hidden="true">
+                <use xlink:href="#icon-shouye4"></use>
+            </svg>
+            <p>这里是首页内容区域</p>
+        </div>
+
+        <nav class="tabbar">
+            <a class="tab active" href="javascript:void(0);">
+                <span class="icon-box">
+                    <svg class="icon" aria-hidden="true"><use xlink:href="#icon-shouye4"></use></svg>
+                </span>
+                <span class="label">首页</span>
+            </a>
+            <a class="tab" href="javascript:void(0);">
+                <span class="icon-box">
+                    <svg class="icon" aria-hidden="true"><use xlink:href="#icon-xiaoxi"></use></svg>
+                    <span class="badge">3</span>
+                </span>
+                <span class="label">消息</span>
+            </a>
+            <a class="tab" href="javascript:void(0);">
+                <span class="icon-box">
+                    <svg class="icon" aria-hidden="true"><use xlink:href="#icon-shequ1"></use></svg>
+                    <span class="dot"></span>
+                </span>
+                <span class="label">社区</span>
+            </a>
+            <a class="tab" href="javascript:void(0);">
+                <span class="icon-box">
+                    <svg class="icon" aria-hidden="true"><use xlink:href="#icon-hangcheng-weixuanzhong"></use></svg>
+                </span>
+                <span class="label">行程</span>
+            </a>
+            <a class="tab" href="javascript:void(0);">
+                <span class="icon-box">
+                    <svg class="icon" aria-hidden="true"><use xlink:href="#icon-wode1"></use></svg>
+                </span>
+                <span class="label">我的</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        var hp_tabs = document.querySelectorAll('.tab');
+        hp_tabs.forEach(function (hp_tab) {
+            hp_tab.addEventListener('click', function () {
+                hp_tabs.forEach(function (hp_item) { hp_item.classList.remove('active'); });
+                hp_tab.classList.add('active');
+            });
+        });
+
+        var hp_iconIds = ['icon-shouye4', 'icon-xiaoxi', 'icon-shequ1', 'icon-hangcheng-weixuanzhong', 'icon-wode1'];
+        function hp_makeIconsFollowColor() {
+            for (var hp_i = 0; hp_i < hp_iconIds.length; hp_i++) {
+                var hp_symbol = document.getElementById(hp_iconIds[hp_i]);
+                if (!hp_symbol) { continue; }
+                var hp_fills = hp_symbol.querySelectorAll('[fill]');
+                for (var hp_j = 0; hp_j < hp_fills.length; hp_j++) {
+                    hp_fills[hp_j].removeAttribute('fill');
+                }
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', hp_makeIconsFollowColor);
+        } else {
+            hp_makeIconsFollowColor();
+        }
+    </script>
+</body>
+</html>

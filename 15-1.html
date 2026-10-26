@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-10-26
+功能名称：100 个数字盒子 · 数 7 游戏
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-1 · 数 7 游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 48px 16px;
+        }
+        .hp_container {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 40px 24px 34px;
+        }
+        .hp_header h1 {
+            font-size: 26px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hp_header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .hp_main {
+            padding: 30px 28px 40px;
+        }
+        .hp_main h2 {
+            font-size: 19px;
+            color: #173f4f;
+            margin-bottom: 18px;
+            padding-left: 12px;
+            border-left: 5px solid #3b8d99;
+        }
+        .hp_rule {
+            font-size: 14px;
+            color: #5f7f88;
+            margin-bottom: 22px;
+            padding: 12px 16px;
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 10px;
+            line-height: 1.8;
+        }
+        .hp_grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+        }
+        .hp_box {
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #173f4f;
+            background: #eef6f7;
+            border: 1px solid #d6e8eb;
+            transition: all 0.2s;
+        }
+        .hp_box.hp_empty {
+            background: #ffffff;
+            border: 2px dashed #c9dde0;
+            color: transparent;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 18px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>数 7 游戏</h1>
+            <p>100 个数字盒子 · 遇到 7 的倍数或个位数为 7 的数字就跳过</p>
+        </div>
+
+        <div class="hp_main">
+            <h2>游戏结果</h2>
+            <p class="hp_rule">规则：数字为 7 的倍数，或个位数为 7 时，显示空盒子；其余数字正常显示。</p>
+            <div id="hp_grid" class="hp_grid"></div>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_grid = document.getElementById('hp_grid');
+        var hp_html = '';
+
+        for (var hp_i = 1; hp_i <= 100; hp_i++) {
+            var hp_isMultipleOf7 = hp_i % 7 === 0;
+            var hp_isEndWith7 = hp_i % 10 === 7;
+
+            if (hp_isMultipleOf7 || hp_isEndWith7) {
+                hp_html += '<div class="hp_box hp_empty"></div>';
+            } else {
+                hp_html += '<div class="hp_box">' + hp_i + '</div>';
+            }
+        }
+
+        hp_grid.innerHTML = hp_html;
+    </script>
+</body>
+</html>

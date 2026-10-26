@@ -500,19 +500,62 @@ body {
     object-fit:contain;
 }
 
-.footer-link {
+/* ========== 底部导航：分组式标签导航 ========== */
+.footer-nav {
+    margin: 24px 0 0;
+}
+
+/* 每一组：左侧标题 + 右侧链接列表，整组左对齐 */
+.footer-nav-group {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 28px; /* 分类块之间的垂直间距 */
+}
+
+/* 分类标题：加粗、比链接更大、深灰（比链接更黑） */
+.footer-nav-title {
+    flex: 0 0 auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.7;
+    margin-right: 32px; /* 标题与第一个链接之间的明显空白 */
+    letter-spacing: normal;
+    white-space: nowrap;
+}
+
+/* 右侧内容区：常规小号字体，浅深灰 */
+.footer-nav-body {
+    flex: 1 1 auto;
     font-size: 14px;
-    color: #000000;
-    line-height: 1.8;
-    margin: 20px 0;
+    color: #666;
+    line-height: 1.7;
+    letter-spacing: normal;
 }
-/* 新增：底部链接样式，默认黑色，hover蓝色，无下划线 */
-.footer-link a{
-    color:#000000;
-    text-decoration:none;
+
+/* 酒店预订组内的描述文本 */
+.footer-nav-desc {
+    margin: 0 0 8px;
+    color: #666;
 }
-.footer-link a:hover{
-    color:#0088ff;
+
+/* 链接列表：横向排列，放不下自动换行，同行内基线对齐 */
+.footer-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.footer-nav-links a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 18px 0 0; /* 链接之间的均匀外边距间隔 */
+    white-space: nowrap;
+    letter-spacing: normal;
+}
+
+.footer-nav-links a:hover {
+    color: #0088ff;
 }
 
 .footer-bottom {
@@ -865,16 +908,16 @@ body {
             <div class="carousel panda-carousel">
                 <div class="carousel-inner" id="pandaCarousel">
                     <div class="carousel-item">
-                        <img src="images/xiong1.jpeg" alt="西安酒店攻略轮播图1">
+                        <img src="images/jietu1.png" alt="西安酒店攻略轮播图1">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/xiong2.jpeg" alt="西安酒店攻略轮播图2">
+                        <img src="images/jietu2.png" alt="西安酒店攻略轮播图2">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/xiong3.jpeg" alt="西安酒店攻略轮播图3">
+                        <img src="images/jietu3.png" alt="西安酒店攻略轮播图3">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/xiong4.jpeg" alt="西安酒店攻略轮播图4">
+                        <img src="images/jietu4.png" alt="西安酒店攻略轮播图4">
                     </div>
                 </div>
                 <button class="carousel-btn left" onclick="moveCarousel('pandaCarousel', 'pandaIndicators', -1, 4)">‹</button>
@@ -1140,16 +1183,134 @@ body {
                 </div>
             </div>
 
-            <!-- ========== 底部导航文字，完全复刻截图 ========== -->
-            <div class="footer-link">
-                <a href="#">携程导航</a>　<a href="#">酒店预订</a>　<a href="#">海外酒店</a>　<a href="#">特价机票</a>　<a href="#">国际机票</a>　<a href="#">旅游线路</a>　<a href="#">景点门票</a>　<a href="#">旅游攻略</a>　<a href="#">火车票</a>　<a href="#">邮轮</a>　<a href="#">周末游</a>　<a href="#">签证</a>　<a href="#">租车</a>　<a href="#">自由行</a><br>
-                <a href="#">会议旅游</a>　<a href="#">礼品卡</a>　<a href="#">团队游</a>　<a href="#">企业商旅</a>　<a href="#">查看全部</a><br><br>
-                <a href="#">酒店预订</a>　携程酒店官网为您提供全球200多个国家和地区、9万多个城市的酒店预订及价格查询服务，覆盖酒店数超过170万家。提供各种住宿类型，包括：酒店、宾馆、旅社、客栈、民宿、经济连锁、酒店公寓、青年旅舍、农家乐、别墅、特色住宿等。同时提供酒店图片、房间照片、酒店电话、酒店地址以及真实用户的酒店点评等各类信息，方便用户选择。<br>
-                <a href="#">北京酒店</a>　<a href="#">上海酒店</a>　<a href="#">广州酒店</a>　<a href="#">深圳酒店</a>　<a href="#">南京酒店</a>　<a href="#">杭州酒店</a>　<a href="#">成都酒店</a>　<a href="#">厦门酒店</a>　<a href="#">青岛酒店</a>　<a href="#">三亚酒店</a>　<a href="#">香港酒店</a>　<a href="#">澳门酒店</a>　<a href="#">西安酒店</a><br><br>
-                <a href="#">特价机票</a>　<a href="#">上海机票</a>　<a href="#">北京机票</a>　<a href="#">广州机票</a>　<a href="#">深圳机票</a>　<a href="#">重庆机票</a>　<a href="#">成都机票</a>　<a href="#">昆明机票</a>　<a href="#">厦门机票</a>　<a href="#">三亚机票</a>　<a href="#">杭州机票</a>　<a href="#">春秋航空</a>　<a href="#">东方航空</a>　<a href="#">南方航空</a><br><br>
-                <a href="#">旅游度假</a>　<a href="#">国内旅游攻略</a>　<a href="#">出境旅游攻略</a>　<a href="#">马尔代夫旅游</a>　<a href="#">普吉岛旅游</a>　<a href="#">巴厘岛旅游</a>　<a href="#">济州岛旅游</a>　<a href="#">日本旅游</a>　<a href="#">新加坡旅游</a>　<a href="#">澳大利亚旅游</a>　<a href="#">迪拜旅游</a>　<a href="#">柬埔寨旅游</a>　<a href="#">英国旅游</a>　<a href="#">法国旅游</a><br><br>
-                <a href="#">攻略指南</a>　<a href="#">攻略社区</a>　<a href="#">旅游攻略</a>　<a href="#">旅行游记</a>　<a href="#">旅游问答</a>　<a href="#">周末旅游</a>　<a href="#">地图大全</a>　<a href="#">Travel Guide</a>　<a href="#">企业商旅</a>　<a href="#">中小企业差旅</a>　<a href="#">商旅签证</a><br><br>
-                <a href="#">快速入口</a>　<a href="#">门票导航</a>　<a href="#">存款证明</a>　<a href="#">携程主题曲</a>　<a href="#">航班时刻表</a>　<a href="#">酒店导航</a>　<a href="#">品牌酒店</a>　<a href="#">酒店大全</a>　<a href="#">国家酒店</a>　<a href="#">eBooking</a>　<a href="#">礼品卡</a>　<a href="#">企业商旅</a>
+            <!-- ========== 底部导航文字：分组式标签导航 ========== -->
+            <div class="footer-nav">
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">携程导航</span>
+                    <div class="footer-nav-body">
+                        <div class="footer-nav-links">
+                            <a href="#">酒店预订</a>
+                            <a href="#">海外酒店</a>
+                            <a href="#">特价机票</a>
+                            <a href="#">国际机票</a>
+                            <a href="#">旅游线路</a>
+                            <a href="#">景点门票</a>
+                            <a href="#">旅游攻略</a>
+                            <a href="#">火车票</a>
+                            <a href="#">邮轮</a>
+                            <a href="#">周末游</a>
+                            <a href="#">签证</a>
+                            <a href="#">租车</a>
+                            <a href="#">自由行</a>
+                            <a href="#">会议旅游</a>
+                            <a href="#">礼品卡</a>
+                            <a href="#">团队游</a>
+                            <a href="#">企业商旅</a>
+                            <a href="#">查看全部</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">酒店预订</span>
+                    <div class="footer-nav-body">
+                        <p class="footer-nav-desc">携程酒店官网为您提供全球 200 多个国家和地区、9 万多个城市的酒店预订及价格查询服务，覆盖酒店数超过 170 万家。提供各种住宿类型，包括：酒店、宾馆、旅社、客栈、民宿、经济连锁、酒店公寓、青年旅舍、农家乐、别墅、特色住宿等。同时提供酒店图片、房间照片、酒店电话、酒店地址以及真实用户的酒店点评等各类信息，方便用户选择。</p>
+                        <div class="footer-nav-links">
+                            <a href="#">北京酒店</a>
+                            <a href="#">上海酒店</a>
+                            <a href="#">广州酒店</a>
+                            <a href="#">深圳酒店</a>
+                            <a href="#">南京酒店</a>
+                            <a href="#">杭州酒店</a>
+                            <a href="#">成都酒店</a>
+                            <a href="#">厦门酒店</a>
+                            <a href="#">青岛酒店</a>
+                            <a href="#">三亚酒店</a>
+                            <a href="#">香港酒店</a>
+                            <a href="#">澳门酒店</a>
+                            <a href="#">西安酒店</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">特价机票</span>
+                    <div class="footer-nav-body">
+                        <div class="footer-nav-links">
+                            <a href="#">上海机票</a>
+                            <a href="#">北京机票</a>
+                            <a href="#">广州机票</a>
+                            <a href="#">深圳机票</a>
+                            <a href="#">重庆机票</a>
+                            <a href="#">成都机票</a>
+                            <a href="#">昆明机票</a>
+                            <a href="#">厦门机票</a>
+                            <a href="#">三亚机票</a>
+                            <a href="#">杭州机票</a>
+                            <a href="#">春秋航空</a>
+                            <a href="#">东方航空</a>
+                            <a href="#">南方航空</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">旅游度假</span>
+                    <div class="footer-nav-body">
+                        <div class="footer-nav-links">
+                            <a href="#">国内旅游攻略</a>
+                            <a href="#">出境旅游攻略</a>
+                            <a href="#">马尔代夫旅游</a>
+                            <a href="#">普吉岛旅游</a>
+                            <a href="#">巴厘岛旅游</a>
+                            <a href="#">济州岛旅游</a>
+                            <a href="#">日本旅游</a>
+                            <a href="#">新加坡旅游</a>
+                            <a href="#">澳大利亚旅游</a>
+                            <a href="#">迪拜旅游</a>
+                            <a href="#">柬埔寨旅游</a>
+                            <a href="#">英国旅游</a>
+                            <a href="#">法国旅游</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">攻略指南</span>
+                    <div class="footer-nav-body">
+                        <div class="footer-nav-links">
+                            <a href="#">攻略社区</a>
+                            <a href="#">旅游攻略</a>
+                            <a href="#">旅行游记</a>
+                            <a href="#">旅游问答</a>
+                            <a href="#">周末旅游</a>
+                            <a href="#">地图大全</a>
+                            <a href="#">Travel Guide</a>
+                            <a href="#">企业商旅</a>
+                            <a href="#">中小企业差旅</a>
+                            <a href="#">商旅签证</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-nav-group">
+                    <span class="footer-nav-title">快速入口</span>
+                    <div class="footer-nav-body">
+                        <div class="footer-nav-links">
+                            <a href="#">门票导航</a>
+                            <a href="#">存款证明</a>
+                            <a href="#">携程主题曲</a>
+                            <a href="#">航班时刻表</a>
+                            <a href="#">酒店导航</a>
+                            <a href="#">品牌酒店</a>
+                            <a href="#">酒店大全</a>
+                            <a href="#">国家酒店</a>
+                            <a href="#">eBooking</a>
+                            <a href="#">礼品卡</a>
+                            <a href="#">企业商旅</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="footer-bottom">

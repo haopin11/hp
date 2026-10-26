@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-10-22
+功能名称：JavaScript 六种基本数据类型演示
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14-2 · JavaScript 六种基本数据类型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 48px 16px;
+        }
+        .hp_container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 40px 24px 34px;
+        }
+        .hp_header h1 {
+            font-size: 26px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hp_header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .hp_main {
+            padding: 30px 28px 40px;
+        }
+        .hp_main h2 {
+            font-size: 19px;
+            color: #173f4f;
+            margin-bottom: 18px;
+            padding-left: 12px;
+            border-left: 5px solid #3b8d99;
+        }
+        .hp_row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border: 1px solid #e4eef1;
+            border-radius: 12px;
+            background: #f6fbfc;
+            margin-bottom: 10px;
+        }
+        .hp_type {
+            flex: 0 0 auto;
+            width: 88px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            background: linear-gradient(135deg, #3b8d99, #5f9ea0);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .hp_value {
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 15px;
+            color: #173f4f;
+            word-break: break-all;
+        }
+        .hp_result {
+            margin-left: auto;
+            font-size: 12px;
+            color: #7a949c;
+            text-align: right;
+            flex: 0 0 auto;
+        }
+        .hp_result b {
+            color: #2b7de9;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 18px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>JavaScript 六种基本数据类型</h1>
+            <p>使用 typeof 运算符检测每种数据类型</p>
+        </div>
+
+        <div class="hp_main">
+            <h2>数据类型演示</h2>
+            <div id="hp_demo"></div>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_demo = document.getElementById('hp_demo');
+
+        var hp_name = "郝品";
+        var hp_age = 20;
+        var hp_score = 98.5;
+        var hp_isStudent = true;
+        var hp_undefined;
+        var hp_empty = null;
+        var hp_object = { name: "郝品", school: "高级网页设计" };
+        var hp_array = [1, 2, 3, 4, 5];
+
+        var hp_list = [
+            { hp_type: "字符串 string", hp_value: 'hp_name = "郝品"', hp_typeof: typeof hp_name },
+            { hp_type: "数值 number", hp_value: 'hp_age = 20', hp_typeof: typeof hp_age },
+            { hp_type: "数值 number", hp_value: 'hp_score = 98.5', hp_typeof: typeof hp_score },
+            { hp_type: "布尔 boolean", hp_value: 'hp_isStudent = true', hp_typeof: typeof hp_isStudent },
+            { hp_type: "未定义 undefined", hp_value: 'hp_undefined = undefined', hp_typeof: typeof hp_undefined },
+            { hp_type: "空值 null", hp_value: 'hp_empty = null', hp_typeof: typeof hp_empty },
+            { hp_type: "对象 object", hp_value: 'hp_object = {name:"郝品"}', hp_typeof: typeof hp_object },
+            { hp_type: "对象 object", hp_value: 'hp_array = [1,2,3,4,5]', hp_typeof: typeof hp_array }
+        ];
+
+        var hp_html = '';
+        for (var hp_i = 0; hp_i < hp_list.length; hp_i++) {
+            var hp_item = hp_list[hp_i];
+            hp_html += '<div class="hp_row">';
+            hp_html += '<span class="hp_type">' + hp_item.hp_type + '</span>';
+            hp_html += '<span class="hp_value">' + hp_item.hp_value + '</span>';
+            hp_html += '<span class="hp_result">typeof 结果：<b>' + hp_item.hp_typeof + '</b></span>';
+            hp_html += '</div>';
+        }
+        hp_demo.innerHTML = hp_html;
+    </script>
+</body>
+</html>

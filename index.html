@@ -1,9 +1,15 @@
 <!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-10-22
+功能名称：课堂实践作品导航首页（index.html）
+-->
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>郝品的《高级网页设计》课堂实践</title>
+    <link rel="stylesheet" href="font/iconfont.css">
     <style>
         * {
             margin: 0;
@@ -13,133 +19,249 @@
         }
         body {
             background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 48px 16px;
         }
-        .container {
-            max-width: 900px;
+        .hp_container {
+            max-width: 980px;
             margin: 0 auto;
             background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            border-radius: 26px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
             overflow: hidden;
         }
-        .hero {
+        .hp_hero {
+            position: relative;
+            overflow: hidden;
             background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
             color: #ffffff;
             text-align: center;
-            padding: 52px 24px 44px;
+            padding: 54px 24px 48px;
         }
-        .hero .avatar {
-            width: 76px;
-            height: 76px;
+        .hp_hero::before {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            top: -120px;
+            right: -80px;
+        }
+        .hp_hero::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: -100px;
+            left: -60px;
+        }
+        .hp_avatar {
+            position: relative;
+            z-index: 1;
+            width: 82px;
+            height: 82px;
             margin: 0 auto 18px;
             border-radius: 50%;
             background: linear-gradient(135deg, #7fd8c8, #3b8d99);
             color: #fff;
-            font-size: 34px;
+            font-size: 38px;
             font-weight: 700;
-            line-height: 76px;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+            line-height: 82px;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
         }
-        .hero h1 {
-            font-size: 30px;
+        .hp_hero h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
             letter-spacing: 3px;
             margin-bottom: 14px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.32);
         }
-        .hero .badge {
-            display: inline-block;
+        .hp_hero .hp_sub {
+            position: relative;
+            z-index: 1;
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 18px;
+        }
+        .hp_hero .hp_badge {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.16);
             border: 1px solid rgba(255, 255, 255, 0.45);
-            padding: 7px 20px;
+            padding: 8px 22px;
             border-radius: 999px;
             font-size: 14px;
             letter-spacing: 1px;
-            backdrop-filter: blur(4px);
         }
-        .main {
-            padding: 36px 40px 46px;
+        .hp_main {
+            padding: 34px 40px 44px;
         }
-        h2 {
-            font-size: 21px;
+        .hp_stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+        .hp_stat {
+            flex: 1 1 140px;
+            text-align: center;
+            background: #f2f8f9;
+            border: 1px solid #e2eff1;
+            border-radius: 14px;
+            padding: 16px 10px;
+        }
+        .hp_stat .hp_stat_num {
+            font-size: 26px;
+            font-weight: 700;
+            color: #3b8d99;
+        }
+        .hp_stat .hp_stat_label {
+            font-size: 13px;
+            color: #7a949c;
+            margin-top: 4px;
+        }
+        .hp_search {
+            position: relative;
+            margin-bottom: 26px;
+        }
+        .hp_search .iconfont {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9db8bf;
+            font-size: 18px;
+        }
+        .hp_search input {
+            width: 100%;
+            padding: 14px 18px 14px 46px;
+            border: 1px solid #dbe9ec;
+            border-radius: 14px;
+            font-size: 15px;
+            color: #173f4f;
+            background: #f7fbfc;
+            outline: none;
+            transition: border 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .hp_search input:focus {
+            border-color: #3b8d99;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(59, 141, 153, 0.12);
+        }
+        .hp_heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
             color: #173f4f;
             margin: 26px 0 18px;
             padding-left: 14px;
             border-left: 5px solid #3b8d99;
         }
-        h2:first-child {
-            margin-top: 0;
+        .hp_heading .iconfont {
+            color: #3b8d99;
+            font-size: 22px;
         }
-        .link-list {
+        .hp_link_list {
             list-style: none;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 14px;
         }
-        .link-list li {
+        .hp_link_item {
             border: 1px solid #e4eef1;
             border-radius: 14px;
             background: #f6fbfc;
             transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
-        .link-list li:hover {
+        .hp_link_item:hover {
             transform: translateY(-5px);
             background: #eaf6f7;
-            box-shadow: 0 10px 24px rgba(59, 141, 153, 0.22);
+            box-shadow: 0 12px 26px rgba(59, 141, 153, 0.22);
         }
-        .link-list a {
+        .hp_link_item.hp_hidden {
+            display: none;
+        }
+        .hp_link_card {
             display: flex;
             align-items: center;
             gap: 13px;
             padding: 15px 18px;
             text-decoration: none;
             color: #173f4f;
-            font-weight: 600;
-            font-size: 15px;
         }
-        .link-list a .num {
+        .hp_num {
             flex: 0 0 auto;
-            width: 34px;
-            height: 34px;
-            line-height: 34px;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
             text-align: center;
             background: linear-gradient(135deg, #3b8d99, #5f9ea0);
             color: #fff;
             border-radius: 10px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
         }
-        .link-list a .desc {
-            display: block;
-            color: #7a949c;
-            font-weight: 400;
-            font-size: 12px;
-            margin-top: 2px;
+        .hp_link_text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
         }
-        .link-list a .arrow {
+        .hp_link_title {
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .hp_link_desc {
+            color: #7a949c;
+            font-size: 12px;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .hp_arrow {
             margin-left: auto;
             color: #a7c6cb;
+            font-size: 18px;
             transition: transform 0.25s ease, color 0.25s ease;
         }
-        .link-list li:hover .arrow {
+        .hp_link_item:hover .hp_arrow {
             transform: translateX(5px);
             color: #3b8d99;
         }
-        .prompt-block {
+        .hp_empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #9db8bf;
+            padding: 26px;
+            font-size: 14px;
+        }
+        .hp_prompt_block {
             background: #10242b;
             color: #9ff3d2;
             border-radius: 14px;
-            padding: 22px;
+            padding: 22px 24px;
             white-space: pre-wrap;
             word-break: break-word;
             font-family: Consolas, "Courier New", monospace;
             font-size: 14px;
-            line-height: 1.8;
+            line-height: 1.9;
             overflow-x: auto;
             border-left: 4px solid #5f9ea0;
         }
-        footer {
+        .hp_footer {
             text-align: center;
             padding: 20px 24px;
             background: #f0f7f8;
@@ -148,177 +270,280 @@
             border-top: 1px solid #e0edef;
         }
         @media (max-width: 640px) {
-            .hero h1 {
+            .hp_hero h1 {
                 font-size: 24px;
             }
-            .main {
+            .hp_main {
                 padding: 24px 18px 32px;
             }
-            .link-list {
+            .hp_link_list {
                 grid-template-columns: 1fr;
             }
+            .hp_stat {
+                flex: 1 1 100%;
+            }
         }
+
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero">
-            <div class="avatar">郝</div>
+    <div class="hp_container">
+        <header class="hp_hero">
+            <div class="hp_avatar">郝</div>
             <h1>郝品的《高级网页设计》课堂实践</h1>
-            <span class="badge">课堂作品导航页 · 高级网页设计 · 学号 24001010632</span>
-        </div>
+            <p class="hp_sub">课堂作品导航页 · 高级网页设计 · 学号 24001010632</p>
+            <span class="hp_badge"><i class="iconfont icon-shouye4"></i>作品合集目录</span>
+        </header>
 
-        <div class="main">
-            <h2>作品页面导航（共 20 个页面）</h2>
-            <ul class="link-list">
-                <li>
-                    <a href="./1.html">
-                        <span class="num">1</span>
-                        <span>1.html<span class="desc">个人信息页</span></span>
-                        <span class="arrow">➜</span>
+        <div class="hp_main">
+            <div class="hp_stats">
+                <div class="hp_stat">
+                    <div class="hp_stat_num">27</div>
+                    <div class="hp_stat_label">作品页面</div>
+                </div>
+                <div class="hp_stat">
+                    <div class="hp_stat_num">原生</div>
+                    <div class="hp_stat_label">HTML / CSS / JS</div>
+                </div>
+                <div class="hp_stat">
+                    <div class="hp_stat_num">iconfont</div>
+                    <div class="hp_stat_label">本地字体图标</div>
+                </div>
+            </div>
+
+            <div class="hp_search">
+                <i class="iconfont icon-sousuo"></i>
+                <input type="text" id="hp_search" placeholder="搜索页面名称或功能描述……">
+            </div>
+
+            <h2 class="hp_heading"><i class="iconfont icon-shouye1"></i>作品页面导航</h2>
+            <ul class="hp_link_list" id="hp_link_list">
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./1.html">
+                        <span class="hp_num">1</span>
+                        <span class="hp_link_text"><span class="hp_link_title">1.html</span><span class="hp_link_desc">个人信息页</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./2-1.html">
-                        <span class="num">2</span>
-                        <span>2-1.html<span class="desc">HTML 元素与语义</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./2-1.html">
+                        <span class="hp_num">2</span>
+                        <span class="hp_link_text"><span class="hp_link_title">2-1.html</span><span class="hp_link_desc">HTML 元素与语义</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./2-2.html">
-                        <span class="num">3</span>
-                        <span>2-2.html<span class="desc">超链接、图片与表格</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./2-2.html">
+                        <span class="hp_num">3</span>
+                        <span class="hp_link_text"><span class="hp_link_title">2-2.html</span><span class="hp_link_desc">超链接、图片与表格</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./3-1.html">
-                        <span class="num">4</span>
-                        <span>3-1.html<span class="desc">HTML 表单</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./3-1.html">
+                        <span class="hp_num">4</span>
+                        <span class="hp_link_text"><span class="hp_link_title">3-1.html</span><span class="hp_link_desc">HTML 表单</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./3-2.html">
-                        <span class="num">5</span>
-                        <span>3-2.html<span class="desc">CSS 选择器与层叠样式表</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./3-2.html">
+                        <span class="hp_num">5</span>
+                        <span class="hp_link_text"><span class="hp_link_title">3-2.html</span><span class="hp_link_desc">CSS 选择器与层叠样式表</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./4-1.html">
-                        <span class="num">6</span>
-                        <span>4-1.html<span class="desc">CSS 进阶练习</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./4-1.html">
+                        <span class="hp_num">6</span>
+                        <span class="hp_link_text"><span class="hp_link_title">4-1.html</span><span class="hp_link_desc">CSS 进阶练习</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./5-1.html">
-                        <span class="num">7</span>
-                        <span>5-1.html<span class="desc">层叠与继承</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./5-1.html">
+                        <span class="hp_num">7</span>
+                        <span class="hp_link_text"><span class="hp_link_title">5-1.html</span><span class="hp_link_desc">层叠与继承</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./5-2.html">
-                        <span class="num">8</span>
-                        <span>5-2.html<span class="desc">盒模型</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./5-2.html">
+                        <span class="hp_num">8</span>
+                        <span class="hp_link_text"><span class="hp_link_title">5-2.html</span><span class="hp_link_desc">盒模型（box model）</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./6-1.html">
-                        <span class="num">9</span>
-                        <span>6-1.html<span class="desc">Flex 弹性布局</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./6-1.html">
+                        <span class="hp_num">9</span>
+                        <span class="hp_link_text"><span class="hp_link_title">6-1.html</span><span class="hp_link_desc">Flex 弹性布局</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./6-2.html">
-                        <span class="num">10</span>
-                        <span>6-2.html<span class="desc">标题栏样式</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./6-2.html">
+                        <span class="hp_num">10</span>
+                        <span class="hp_link_text"><span class="hp_link_title">6-2.html</span><span class="hp_link_desc">标题栏样式</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./7-1.html">
-                        <span class="num">11</span>
-                        <span>7-1.html<span class="desc">上图下文图片列表</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./7-1.html">
+                        <span class="hp_num">11</span>
+                        <span class="hp_link_text"><span class="hp_link_title">7-1.html</span><span class="hp_link_desc">上图下文图片列表</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./7-2.html">
-                        <span class="num">12</span>
-                        <span>7-2.html<span class="desc">图文列表</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./7-2.html">
+                        <span class="hp_num">12</span>
+                        <span class="hp_link_text"><span class="hp_link_title">7-2.html</span><span class="hp_link_desc">图文列表</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./8-1.html">
-                        <span class="num">13</span>
-                        <span>8-1.html<span class="desc">携程旅行复刻页面（课堂练习）</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./8-1.html">
+                        <span class="hp_num">13</span>
+                        <span class="hp_link_text"><span class="hp_link_title">8-1.html</span><span class="hp_link_desc">携程旅行复刻（课堂练习）</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./8-2.html">
-                        <span class="num">14</span>
-                        <span>8-2.html<span class="desc">图片悬浮效果</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./8-2.html">
+                        <span class="hp_num">14</span>
+                        <span class="hp_link_text"><span class="hp_link_title">8-2.html</span><span class="hp_link_desc">图片悬浮效果</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./ctrip.html">
-                        <span class="num">15</span>
-                        <span>ctrip.html<span class="desc">携程旅行复刻页面（综合项目）</span></span>
-                        <span class="arrow">➜</span>
+
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./9.html">
+                        <span class="hp_num">15</span>
+                        <span class="hp_link_text"><span class="hp_link_title">9.html</span><span class="hp_link_desc">背景颜色随时间变化</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./9-1.html">
-                        <span class="num">16</span>
-                        <span>9-1.html<span class="desc">CSS 动画幻灯片（三图滑动切换）</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./9-1.html">
+                        <span class="hp_num">16</span>
+                        <span class="hp_link_text"><span class="hp_link_title">9-1.html</span><span class="hp_link_desc">CSS 动画幻灯片（三图滑动切换）</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./10-3.html">
-                        <span class="num">17</span>
-                        <span>10-3.html<span class="desc">媒体查询 · 响应式全屏盒子</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./10-3.html">
+                        <span class="hp_num">17</span>
+                        <span class="hp_link_text"><span class="hp_link_title">10-3.html</span><span class="hp_link_desc">媒体查询 · 响应式全屏盒子</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./10-4.html">
-                        <span class="num">18</span>
-                        <span>10-4.html<span class="desc">媒体查询布局 · 八盒子响应式栅格</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./10-4.html">
+                        <span class="hp_num">18</span>
+                        <span class="hp_link_text"><span class="hp_link_title">10-4.html</span><span class="hp_link_desc">媒体查询 · 八盒子响应式栅格</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./11-1.html">
-                        <span class="num">19</span>
-                        <span>11-1.html<span class="desc">web前端 — 长度单位</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./11-1.html">
+                        <span class="hp_num">19</span>
+                        <span class="hp_link_text"><span class="hp_link_title">11-1.html</span><span class="hp_link_desc">web前端 · 长度单位</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./11-2.html">
-                        <span class="num">20</span>
-                        <span>11-2.html<span class="desc">CSS3 3D 动画</span></span>
-                        <span class="arrow">➜</span>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./11-2.html">
+                        <span class="hp_num">20</span>
+                        <span class="hp_link_text"><span class="hp_link_title">11-2.html</span><span class="hp_link_desc">CSS3 3D 动画</span></span>
+                        <span class="hp_arrow">➜</span>
                     </a>
                 </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./13-1.html">
+                        <span class="hp_num">21</span>
+                        <span class="hp_link_text"><span class="hp_link_title">13-1.html</span><span class="hp_link_desc">Font Awesome 字体图标</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./13-2.html">
+                        <span class="hp_num">22</span>
+                        <span class="hp_link_text"><span class="hp_link_title">13-2.html</span><span class="hp_link_desc">Lucide SVG 图标</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./13-3.html">
+                        <span class="hp_num">23</span>
+                        <span class="hp_link_text"><span class="hp_link_title">13-3.html</span><span class="hp_link_desc">移动端底部导航（字体图标）</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./13-4.html">
+                        <span class="hp_num">24</span>
+                        <span class="hp_link_text"><span class="hp_link_title">13-4.html</span><span class="hp_link_desc">移动端底部导航（SVG 图标）</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./14-1.html">
+                        <span class="hp_num">25</span>
+                        <span class="hp_link_text"><span class="hp_link_title">14-1.html</span><span class="hp_link_desc">JavaScript 入门（Hello World）</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./14-2.html">
+                        <span class="hp_num">26</span>
+                        <span class="hp_link_text"><span class="hp_link_title">14-2.html</span><span class="hp_link_desc">JavaScript 六种基本数据类型</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+                <li class="hp_link_item">
+                    <a class="hp_link_card" href="./ctrip.html">
+                        <span class="hp_num">27</span>
+                        <span class="hp_link_text"><span class="hp_link_title">ctrip.html</span><span class="hp_link_desc">携程旅行复刻（综合项目）</span></span>
+                        <span class="hp_arrow">➜</span>
+                    </a>
+                </li>
+
+                <li class="hp_empty" id="hp_empty" style="display:none;">未找到匹配的页面，换个关键词试试吧</li>
             </ul>
-            <h2>页面提示词原文</h2>
-            <div class="prompt-block">创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为郝品的《高级网页设计》课堂实践，美化页面，页面中包括本提示词。</div>
+
+            <h2 class="hp_heading"><i class="iconfont icon-gonglve"></i>页面提示词原文</h2>
+            <div class="hp_prompt_block">创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为郝品的《高级网页设计》课堂实践，美化页面，页面中包括本提示词。</div>
         </div>
 
-        <footer>
+        <footer class="hp_footer">
             © 2026 郝品 | 高级网页设计课程作业
         </footer>
     </div>
+
+    <script>
+        (function () {
+            var hp_search = document.getElementById('hp_search');
+            var hp_items = document.querySelectorAll('.hp_link_item');
+            var hp_empty = document.getElementById('hp_empty');
+            hp_search.addEventListener('input', function () {
+                var hp_kw = hp_search.value.trim().toLowerCase();
+                var hp_count = 0;
+                for (var hp_i = 0; hp_i < hp_items.length; hp_i++) {
+                    var hp_item = hp_items[hp_i];
+                    var hp_text = hp_item.textContent.toLowerCase();
+                    if (hp_kw === '' || hp_text.indexOf(hp_kw) !== -1) {
+                        hp_item.classList.remove('hp_hidden');
+                        hp_count++;
+                    } else {
+                        hp_item.classList.add('hp_hidden');
+                    }
+                }
+                hp_empty.style.display = (hp_count === 0) ? 'block' : 'none';
+            });
+        })();
+    </script>
+
 </body>
 </html>
