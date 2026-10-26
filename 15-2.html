@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-10-26
+使用的大模型：deepseek-v4-pro
+功能名称：JavaScript 程序结构 · 顺序、条件、循环
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-2 · JavaScript 程序结构</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 48px 16px;
+        }
+        .hp_container {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 40px 24px 34px;
+        }
+        .hp_header h1 {
+            font-size: 26px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hp_header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .hp_main {
+            padding: 30px 28px 40px;
+        }
+        .hp_main h2 {
+            font-size: 19px;
+            color: #173f4f;
+            margin: 26px 0 16px;
+            padding-left: 12px;
+            border-left: 5px solid #3b8d99;
+        }
+        .hp_main h2:first-child {
+            margin-top: 0;
+        }
+        .hp_code {
+            background: #173f4f;
+            color: #d7eef1;
+            border-radius: 12px;
+            padding: 16px 18px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin-bottom: 12px;
+        }
+        .hp_code .hp_kw {
+            color: #ffd479;
+        }
+        .hp_code .hp_num {
+            color: #9cdcfe;
+        }
+        .hp_code .hp_str {
+            color: #ce9178;
+        }
+        .hp_code .hp_cmt {
+            color: #7a9aa3;
+        }
+        .hp_result {
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+            color: #173f4f;
+            line-height: 1.8;
+        }
+        .hp_result b {
+            color: #2b7de9;
+        }
+        .hp_tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .hp_tag {
+            background: #eef6f7;
+            border: 1px solid #d6e8eb;
+            color: #3b8d99;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 18px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>JavaScript 程序结构</h1>
+            <p>顺序结构 · 条件结构 · 循环结构</p>
+        </div>
+
+        <div class="hp_main">
+            <h2>一、顺序结构</h2>
+            <div class="hp_code">
+                <span class="hp_kw">var</span> hp_a = <span class="hp_num">10</span>;<br>
+                <span class="hp_kw">var</span> hp_b = <span class="hp_num">20</span>;<br>
+                <span class="hp_kw">var</span> hp_sum = hp_a + hp_b;<br>
+                <span class="hp_cmt">// 自上而下依次执行，最后输出结果</span>
+            </div>
+            <div class="hp_result" id="hp_result1"></div>
+
+            <h2>二、条件结构</h2>
+            <div class="hp_tags">
+                <span class="hp_tag">if / else</span>
+                <span class="hp_tag">else if</span>
+                <span class="hp_tag">switch / case</span>
+                <span class="hp_tag">三元运算符</span>
+            </div>
+            <div class="hp_code">
+                <span class="hp_kw">var</span> hp_score = <span class="hp_num">86</span>;<br>
+                <span class="hp_kw">if</span> (hp_score &gt;= <span class="hp_num">90</span>) { hp_level = <span class="hp_str">"优秀"</span>; }<br>
+                <span class="hp_kw">else if</span> (hp_score &gt;= <span class="hp_num">60</span>) { hp_level = <span class="hp_str">"及格"</span>; }<br>
+                <span class="hp_kw">else</span> { hp_level = <span class="hp_str">"不及格"</span>; }
+            </div>
+            <div class="hp_result" id="hp_result2"></div>
+
+            <h2>三、循环结构</h2>
+            <div class="hp_tags">
+                <span class="hp_tag">for</span>
+                <span class="hp_tag">while</span>
+                <span class="hp_tag">do while</span>
+                <span class="hp_tag">for in</span>
+            </div>
+            <div class="hp_code">
+                <span class="hp_cmt">// for 循环：求 1~100 的和</span><br>
+                <span class="hp_kw">for</span> (<span class="hp_kw">var</span> hp_i = <span class="hp_num">1</span>; hp_i &lt;= <span class="hp_num">100</span>; hp_i++) { hp_total += hp_i; }
+            </div>
+            <div class="hp_result" id="hp_result3"></div>
+
+            <h2>四、循环嵌套</h2>
+            <div class="hp_code">
+                <span class="hp_cmt">// 双重循环：打印乘法口诀表前 9 行</span><br>
+                <span class="hp_kw">for</span> (<span class="hp_kw">var</span> hp_i = <span class="hp_num">1</span>; hp_i &lt;= <span class="hp_num">9</span>; hp_i++) {<br>
+                &nbsp;&nbsp;<span class="hp_kw">for</span> (<span class="hp_kw">var</span> hp_j = <span class="hp_num">1</span>; hp_j &lt;= hp_i; hp_j++) { ... }<br>
+                }
+            </div>
+            <div class="hp_result" id="hp_result4"></div>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_result1 = document.getElementById('hp_result1');
+        var hp_result2 = document.getElementById('hp_result2');
+        var hp_result3 = document.getElementById('hp_result3');
+        var hp_result4 = document.getElementById('hp_result4');
+
+        var hp_a = 10;
+        var hp_b = 20;
+        var hp_sum = hp_a + hp_b;
+        hp_result1.innerHTML = '执行结果：hp_a = ' + hp_a + '，hp_b = ' + hp_b + '，hp_sum = <b>' + hp_sum + '</b>';
+
+        var hp_score = 86;
+        var hp_level = '';
+        if (hp_score >= 90) {
+            hp_level = '优秀';
+        } else if (hp_score >= 60) {
+            hp_level = '及格';
+        } else {
+            hp_level = '不及格';
+        }
+        var hp_day = 3;
+        var hp_dayName = '';
+        switch (hp_day) {
+            case 1: hp_dayName = '星期一'; break;
+            case 2: hp_dayName = '星期二'; break;
+            case 3: hp_dayName = '星期三'; break;
+            case 4: hp_dayName = '星期四'; break;
+            case 5: hp_dayName = '星期五'; break;
+            default: hp_dayName = '周末'; break;
+        }
+        hp_result2.innerHTML = '分数 <b>' + hp_score + '</b> 分 → ' + hp_level +
+            '；switch 第 <b>' + hp_day + '</b> 天 → ' + hp_dayName;
+
+        var hp_total = 0;
+        for (var hp_i = 1; hp_i <= 100; hp_i++) {
+            hp_total += hp_i;
+        }
+        hp_result3.innerHTML = 'for 循环：1+2+…+100 = <b>' + hp_total + '</b>';
+
+        var hp_table = '';
+        for (var hp_i = 1; hp_i <= 9; hp_i++) {
+            for (var hp_j = 1; hp_j <= hp_i; hp_j++) {
+                hp_table += hp_j + '×' + hp_i + '=' + (hp_j * hp_i) + '　';
+            }
+            hp_table += '<br>';
+        }
+        hp_result4.innerHTML = hp_table;
+    </script>
+</body>
+</html>
