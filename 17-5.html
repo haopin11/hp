@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-11-02
+使用的大模型：deepseek-v4-pro
+功能名称：JavaScript 两种定时器（setTimeout / setInterval）演示
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17-5 · JavaScript 两种定时器</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 40px 16px;
+        }
+        .hp_container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 34px 24px 28px;
+        }
+        .hp_header h1 {
+            font-size: 25px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hp_header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+        .hp_clock {
+            display: inline-block;
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 6px 18px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 15px;
+            color: #ffd479;
+            letter-spacing: 1px;
+        }
+        .hp_main {
+            padding: 26px 28px 40px;
+        }
+        .hp_main h2 {
+            font-size: 18px;
+            color: #173f4f;
+            margin: 26px 0 14px;
+            padding-left: 12px;
+            border-left: 5px solid #3b8d99;
+        }
+        .hp_main h2:first-child {
+            margin-top: 0;
+        }
+        .hp_cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .hp_box {
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 14px;
+            padding: 18px 18px 20px;
+        }
+        .hp_box h3 {
+            font-size: 15px;
+            color: #173f4f;
+            margin-bottom: 4px;
+        }
+        .hp_box h3 i {
+            font-style: normal;
+            color: #3b8d99;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .hp_box .hp_desc {
+            font-size: 12px;
+            color: #7a9aa3;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+        .hp_field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #4a6a73;
+        }
+        .hp_field input {
+            width: 92px;
+            border: 1px solid #d6e8eb;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 14px;
+            color: #173f4f;
+            outline: none;
+        }
+        .hp_field input:focus {
+            border-color: #3b8d99;
+        }
+        .hp_btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .hp_btn {
+            background: #3b8d99;
+            border: 1px solid #3b8d99;
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .hp_btn:hover {
+            background: #2c7180;
+            border-color: #2c7180;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(59, 141, 153, 0.35);
+        }
+        .hp_btn.hp_orange {
+            background: #e2762b;
+            border-color: #e2762b;
+        }
+        .hp_btn.hp_orange:hover {
+            background: #c9631f;
+            border-color: #c9631f;
+            box-shadow: 0 6px 14px rgba(226, 118, 43, 0.35);
+        }
+        .hp_btn.hp_stop {
+            background: #d6446e;
+            border-color: #d6446e;
+        }
+        .hp_btn.hp_stop:hover {
+            background: #b93357;
+            border-color: #b93357;
+            box-shadow: 0 6px 14px rgba(214, 68, 110, 0.35);
+        }
+        .hp_btn:disabled {
+            background: #cfe0e3;
+            border-color: #cfe0e3;
+            color: #fff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .hp_state {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #5f7f88;
+            margin-bottom: 10px;
+        }
+        .hp_dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #b9cfd3;
+        }
+        .hp_dot.hp_run {
+            background: #2ba84a;
+            box-shadow: 0 0 0 4px rgba(43, 168, 74, 0.16);
+            animation: hp_blink 1s infinite;
+        }
+        .hp_dot.hp_done {
+            background: #2b7de9;
+        }
+        .hp_dot.hp_cancel {
+            background: #d6446e;
+        }
+        .hp_big {
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 26px;
+            font-weight: 700;
+            color: #173f4f;
+            margin-bottom: 10px;
+        }
+        .hp_big span {
+            font-size: 13px;
+            color: #9db8bf;
+            font-weight: 400;
+        }
+        .hp_bar {
+            height: 10px;
+            border-radius: 999px;
+            background: #e4eef1;
+            overflow: hidden;
+        }
+        .hp_bar i {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #3b8d99, #2b7de9);
+            transition: width 0.1s linear;
+        }
+        .hp_bar.hp_orange i {
+            background: linear-gradient(90deg, #f0a44a, #e2762b);
+        }
+        .hp_meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            font-size: 13px;
+            color: #5f7f88;
+            margin-bottom: 8px;
+        }
+        .hp_meta b {
+            color: #2b7de9;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .hp_code {
+            background: #173f4f;
+            color: #d7eef1;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin-bottom: 12px;
+        }
+        .hp_code .hp_kw {
+            color: #ffd479;
+        }
+        .hp_code .hp_num {
+            color: #9cdcfe;
+        }
+        .hp_code .hp_str {
+            color: #ce9178;
+        }
+        .hp_code .hp_cmt {
+            color: #7a9aa3;
+        }
+        .hp_code .hp_fn {
+            color: #4ec9b0;
+        }
+        .hp_log {
+            background: #173f4f;
+            border-radius: 12px;
+            padding: 12px 16px;
+            height: 190px;
+            overflow-y: auto;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+        .hp_log div {
+            color: #9db8bf;
+        }
+        .hp_log .hp_t1 {
+            color: #ffd479;
+        }
+        .hp_log .hp_t2 {
+            color: #4ec9b0;
+        }
+        .hp_log .hp_t3 {
+            color: #f08a8a;
+        }
+        .hp_log em {
+            font-style: normal;
+            color: #6f8f99;
+            margin-right: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #e4eef1;
+            padding: 10px 12px;
+            text-align: left;
+            color: #4a6a73;
+            line-height: 1.7;
+        }
+        th {
+            background: #eef6f7;
+            color: #173f4f;
+            font-weight: 700;
+        }
+        td code {
+            font-family: Consolas, "Courier New", monospace;
+            color: #2b7de9;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 16px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+        @keyframes hp_blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+        @media (max-width: 820px) {
+            .hp_cols {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>JavaScript 两种定时器</h1>
+            <p>setTimeout：延迟指定时间后<strong>执行一次</strong>；setInterval：每隔指定时间<strong>重复执行</strong></p>
+            <div class="hp_clock" id="hp_clock">--:--:--</div>
+        </div>
+
+        <div class="hp_main">
+            <h2>一、可视化演示</h2>
+            <div class="hp_cols">
+                <div class="hp_box">
+                    <h3>① <i>setTimeout()</i> 延时执行一次</h3>
+                    <p class="hp_desc">设定延迟时间后启动，到点只执行一次；执行前可用 clearTimeout() 取消。</p>
+                    <div class="hp_field">
+                        <label>延迟时间</label>
+                        <input type="number" id="hp_delay" value="3000" min="500" step="500">
+                        <span>毫秒</span>
+                    </div>
+                    <div class="hp_btns">
+                        <button class="hp_btn hp_orange" id="hp_tStart">启动延时任务</button>
+                        <button class="hp_btn hp_stop" id="hp_tCancel" disabled>clearTimeout 取消</button>
+                    </div>
+                    <div class="hp_state">
+                        <i class="hp_dot" id="hp_tDot"></i>
+                        <span id="hp_tState">未启动</span>
+                    </div>
+                    <div class="hp_big" id="hp_tLeft">0 <span>ms 后执行</span></div>
+                    <div class="hp_bar hp_orange">
+                        <i id="hp_tBar"></i>
+                    </div>
+                </div>
+
+                <div class="hp_box">
+                    <h3>② <i>setInterval()</i> 每隔一段时间重复执行</h3>
+                    <p class="hp_desc">设定间隔后启动，会一直重复执行；可用 clearInterval() 暂停或停止。</p>
+                    <div class="hp_field">
+                        <label>间隔时间</label>
+                        <input type="number" id="hp_gap" value="1000" min="300" step="100">
+                        <span>毫秒</span>
+                    </div>
+                    <div class="hp_btns">
+                        <button class="hp_btn" id="hp_iStart">启动周期任务</button>
+                        <button class="hp_btn hp_orange" id="hp_iPause" disabled>暂停</button>
+                        <button class="hp_btn hp_stop" id="hp_iStop" disabled>clearInterval 停止</button>
+                    </div>
+                    <div class="hp_state">
+                        <i class="hp_dot" id="hp_iDot"></i>
+                        <span id="hp_iState">未启动</span>
+                    </div>
+                    <div class="hp_big" id="hp_iTimes">0 <span>次</span></div>
+                    <div class="hp_meta">
+                        <span>已运行：<b id="hp_iRun">0.0</b> 秒</span>
+                        <span>最近执行：<b id="hp_iLast">--</b></span>
+                    </div>
+                    <div class="hp_bar">
+                        <i id="hp_iBar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h2>二、运行日志</h2>
+            <div class="hp_log" id="hp_log"></div>
+
+            <h2>三、核心代码</h2>
+            <div class="hp_code">
+                <span class="hp_cmt">// ① setTimeout：延迟 delay 毫秒后执行一次，返回定时器编号</span><br>
+                <span class="hp_kw">var</span> hp_timer1 = <span class="hp_fn">setTimeout</span>(<span class="hp_kw">function</span> () {<br>
+                &nbsp;&nbsp;hp_log(<span class="hp_str">'延时任务执行完毕'</span>);<br>
+                }, <span class="hp_num">3000</span>);<br>
+                <span class="hp_fn">clearTimeout</span>(hp_timer1); <span class="hp_cmt">// 执行前可取消</span><br>
+                <br>
+                <span class="hp_cmt">// ② setInterval：每隔 gap 毫秒重复执行，直到被清除</span><br>
+                <span class="hp_kw">var</span> hp_timer2 = <span class="hp_fn">setInterval</span>(<span class="hp_kw">function</span> () {<br>
+                &nbsp;&nbsp;hp_log(<span class="hp_str">'周期任务第 '</span> + (++hp_times) + <span class="hp_str">' 次执行'</span>);<br>
+                }, <span class="hp_num">1000</span>);<br>
+                <span class="hp_fn">clearInterval</span>(hp_timer2); <span class="hp_cmt">// 停止重复执行</span>
+            </div>
+
+            <h2>四、两者对比</h2>
+            <table>
+                <tr>
+                    <th style="width:22%;">对比项</th>
+                    <th style="width:39%;">setTimeout()</th>
+                    <th style="width:39%;">setInterval()</th>
+                </tr>
+                <tr>
+                    <td>执行次数</td>
+                    <td>延迟结束后<b>只执行一次</b></td>
+                    <td>每隔一段时间<b>反复执行</b>，直到被清除</td>
+                </tr>
+                <tr>
+                    <td>语法</td>
+                    <td><code>setTimeout(fn, delay)</code></td>
+                    <td><code>setInterval(fn, gap)</code></td>
+                </tr>
+                <tr>
+                    <td>清除方法</td>
+                    <td><code>clearTimeout(id)</code></td>
+                    <td><code>clearInterval(id)</code></td>
+                </tr>
+                <tr>
+                    <td>典型应用</td>
+                    <td>延时提示、防抖 debounce、页面跳转倒计时</td>
+                    <td>时钟、轮播图自动播放、轮询请求、动画帧</td>
+                </tr>
+                <tr>
+                    <td>本页示例</td>
+                    <td>启动后倒计时结束执行一次，可中途取消</td>
+                    <td>启动后按间隔累加次数，可暂停/停止</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_logEl = document.getElementById('hp_log');
+
+        function hp_now() {
+            var hp_d = new Date();
+            function hp_pad(hp_n) {
+                return hp_n < 10 ? '0' + hp_n : '' + hp_n;
+            }
+            return hp_pad(hp_d.getHours()) + ':' + hp_pad(hp_d.getMinutes()) + ':' + hp_pad(hp_d.getSeconds());
+        }
+
+        function hp_log(hp_text, hp_type) {
+            var hp_cls = hp_type ? ' class="hp_t' + hp_type + '"' : '';
+            hp_logEl.innerHTML = '<div' + hp_cls + '><em>' + hp_now() + '</em>' + hp_text + '</div>' + hp_logEl.innerHTML;
+            if (hp_logEl.childNodes.length > 60) {
+                hp_logEl.removeChild(hp_logEl.lastChild);
+            }
+        }
+
+        /* ===== 页面时钟：setInterval 的典型应用 ===== */
+        setInterval(function () {
+            document.getElementById('hp_clock').innerHTML = hp_now();
+        }, 1000);
+
+        /* ===== ① setTimeout 演示 ===== */
+        var hp_delayEl = document.getElementById('hp_delay');
+        var hp_tStart = document.getElementById('hp_tStart');
+        var hp_tCancel = document.getElementById('hp_tCancel');
+        var hp_tDot = document.getElementById('hp_tDot');
+        var hp_tState = document.getElementById('hp_tState');
+        var hp_tLeft = document.getElementById('hp_tLeft');
+        var hp_tBar = document.getElementById('hp_tBar');
+
+        var hp_timeoutId = null;
+        var hp_tickId = null;
+        var hp_deadline = 0;
+        var hp_total = 0;
+
+        function hp_tReset(hp_text, hp_cls) {
+            hp_tDot.className = 'hp_dot' + (hp_cls ? ' ' + hp_cls : '');
+            hp_tState.innerHTML = hp_text;
+            hp_tStart.disabled = false;
+            hp_tCancel.disabled = true;
+            hp_timeoutId = null;
+            if (hp_tickId !== null) {
+                clearInterval(hp_tickId);
+                hp_tickId = null;
+            }
+        }
+
+        hp_tStart.addEventListener('click', function () {
+            if (hp_timeoutId !== null) {
+                return;
+            }
+            var hp_delay = parseInt(hp_delayEl.value, 10);
+            if (isNaN(hp_delay) || hp_delay < 500) {
+                hp_delay = 500;
+                hp_delayEl.value = 500;
+            }
+            hp_total = hp_delay;
+            hp_deadline = new Date().getTime() + hp_delay;
+
+            hp_tStart.disabled = true;
+            hp_tCancel.disabled = false;
+            hp_tDot.className = 'hp_dot hp_run';
+            hp_tState.innerHTML = '延时任务已启动，等待执行……';
+            hp_log('setTimeout 已启动，将在 ' + hp_delay + ' ms 后执行一次', 1);
+
+            hp_timeoutId = setTimeout(function () {
+                hp_tLeft.innerHTML = '0 <span>ms 后执行</span>';
+                hp_tBar.style.width = '100%';
+                hp_log('延时任务执行完毕！（延迟 ' + hp_delay + ' ms，仅执行一次）', 1);
+                hp_tReset('执行完成（setTimeout 只执行一次）', 'hp_done');
+            }, hp_delay);
+
+            hp_tickId = setInterval(function () {
+                var hp_rest = hp_deadline - new Date().getTime();
+                if (hp_rest < 0) {
+                    hp_rest = 0;
+                }
+                hp_tLeft.innerHTML = hp_rest + ' <span>ms 后执行</span>';
+                hp_tBar.style.width = ((hp_total - hp_rest) / hp_total * 100) + '%';
+            }, 50);
+        });
+
+        hp_tCancel.addEventListener('click', function () {
+            if (hp_timeoutId === null) {
+                return;
+            }
+            clearTimeout(hp_timeoutId);
+            hp_log('clearTimeout() 已取消延时任务，回调函数不会执行', 3);
+            hp_tLeft.innerHTML = '0 <span>ms 后执行</span>';
+            hp_tBar.style.width = '0';
+            hp_tReset('已取消（clearTimeout）', 'hp_cancel');
+        });
+
+        /* ===== ② setInterval 演示 ===== */
+        var hp_gapEl = document.getElementById('hp_gap');
+        var hp_iStart = document.getElementById('hp_iStart');
+        var hp_iPause = document.getElementById('hp_iPause');
+        var hp_iStop = document.getElementById('hp_iStop');
+        var hp_iDot = document.getElementById('hp_iDot');
+        var hp_iState = document.getElementById('hp_iState');
+        var hp_iTimes = document.getElementById('hp_iTimes');
+        var hp_iRun = document.getElementById('hp_iRun');
+        var hp_iLast = document.getElementById('hp_iLast');
+        var hp_iBar = document.getElementById('hp_iBar');
+
+        var hp_intervalId = null;
+        var hp_tickerId = null;
+        var hp_times = 0;
+        var hp_gap = 1000;
+        var hp_startAt = 0;
+        var hp_elapsed = 0;
+        var hp_running = false;
+
+        function hp_iTick() {
+            hp_startAt = new Date().getTime();
+            hp_intervalId = setInterval(function () {
+                hp_times++;
+                hp_iTimes.innerHTML = hp_times + ' <span>次</span>';
+                hp_iLast.innerHTML = hp_now();
+                hp_log('setInterval 第 ' + hp_times + ' 次执行（间隔 ' + hp_gap + ' ms）', 2);
+            }, hp_gap);
+
+            hp_tickerId = setInterval(function () {
+                var hp_pass = hp_elapsed + (new Date().getTime() - hp_startAt);
+                hp_iRun.innerHTML = (hp_pass / 1000).toFixed(1);
+                var hp_frac = (hp_pass % hp_gap) / hp_gap * 100;
+                hp_iBar.style.width = hp_frac + '%';
+            }, 50);
+        }
+
+        function hp_iStopAll() {
+            if (hp_intervalId !== null) {
+                clearInterval(hp_intervalId);
+                hp_intervalId = null;
+            }
+            if (hp_tickerId !== null) {
+                clearInterval(hp_tickerId);
+                hp_tickerId = null;
+            }
+            hp_running = false;
+        }
+
+        hp_iStart.addEventListener('click', function () {
+            if (hp_running) {
+                return;
+            }
+            hp_gap = parseInt(hp_gapEl.value, 10);
+            if (isNaN(hp_gap) || hp_gap < 300) {
+                hp_gap = 300;
+                hp_gapEl.value = 300;
+            }
+            hp_times = 0;
+            hp_elapsed = 0;
+            hp_iTimes.innerHTML = '0 <span>次</span>';
+            hp_iRun.innerHTML = '0.0';
+            hp_iLast.innerHTML = '--';
+            hp_running = true;
+            hp_iDot.className = 'hp_dot hp_run';
+            hp_iState.innerHTML = '周期任务运行中（clearInterval 可停止）';
+            hp_iStart.disabled = true;
+            hp_iPause.disabled = false;
+            hp_iStop.disabled = false;
+            hp_log('setInterval 已启动，每隔 ' + hp_gap + ' ms 重复执行', 2);
+            hp_iTick();
+        });
+
+        hp_iPause.addEventListener('click', function () {
+            if (!hp_running) {
+                hp_running = true;
+                hp_iDot.className = 'hp_dot hp_run';
+                hp_iState.innerHTML = '周期任务运行中（clearInterval 可停止）';
+                hp_iPause.innerHTML = '暂停';
+                hp_log('周期任务已继续，累计时间保留 ' + (hp_elapsed / 1000).toFixed(1) + ' 秒', 2);
+                hp_iTick();
+                return;
+            }
+            hp_elapsed = hp_elapsed + (new Date().getTime() - hp_startAt);
+            hp_iStopAll();
+            hp_iDot.className = 'hp_dot hp_cancel';
+            hp_iState.innerHTML = '已暂停（clearInterval 已清除定时器）';
+            hp_iPause.innerHTML = '继续';
+            hp_iBar.style.width = '0';
+            hp_log('clearInterval() 已暂停周期任务，累计运行 ' + (hp_elapsed / 1000).toFixed(1) + ' 秒', 3);
+        });
+
+        hp_iStop.addEventListener('click', function () {
+            hp_iStopAll();
+            hp_elapsed = 0;
+            hp_times = 0;
+            hp_iTimes.innerHTML = '0 <span>次</span>';
+            hp_iRun.innerHTML = '0.0';
+            hp_iLast.innerHTML = '--';
+            hp_iBar.style.width = '0';
+            hp_iDot.className = 'hp_dot';
+            hp_iState.innerHTML = '已停止并重置';
+            hp_iStart.disabled = false;
+            hp_iPause.disabled = true;
+            hp_iPause.innerHTML = '暂停';
+            hp_iStop.disabled = true;
+            hp_log('clearInterval() 已停止周期任务并重置计数', 3);
+        });
+
+        hp_log('演示页已就绪：左边测试 setTimeout，右边测试 setInterval');
+    </script>
+</body>
+</html>

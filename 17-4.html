@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-11-02
+使用的大模型：deepseek-v4-pro
+功能名称：远程数据接口测试（GET / POST 等，含返回结果与错误提示）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17-4 · 远程数据接口测试</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 40px 16px;
+        }
+        .hp_container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            padding: 30px 28px 24px;
+        }
+        .hp_header h1 {
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .hp_header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+        .hp_header code {
+            display: inline-block;
+            margin-top: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            color: #ffd479;
+        }
+        .hp_main {
+            padding: 24px 28px 40px;
+        }
+        .hp_cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .hp_panel {
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 14px;
+            padding: 16px;
+        }
+        .hp_panel h2 {
+            font-size: 15px;
+            color: #173f4f;
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 4px solid #3b8d99;
+        }
+        .hp_field {
+            margin-bottom: 12px;
+        }
+        .hp_field label {
+            display: block;
+            font-size: 12px;
+            color: #7a9aa3;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .hp_line {
+            display: flex;
+            gap: 8px;
+        }
+        select, input[type="text"], textarea {
+            width: 100%;
+            border: 1px solid #d6e8eb;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 14px;
+            color: #173f4f;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        select:focus, input[type="text"]:focus, textarea:focus {
+            border-color: #3b8d99;
+        }
+        select.hp_method {
+            flex: none;
+            width: 106px;
+            font-weight: 700;
+            color: #2b7de9;
+        }
+        textarea {
+            min-height: 96px;
+            resize: vertical;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .hp_presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .hp_tag {
+            background: #eef6f7;
+            border: 1px solid #d6e8eb;
+            color: #3b8d99;
+            border-radius: 999px;
+            padding: 6px 13px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .hp_tag:hover {
+            background: #3b8d99;
+            border-color: #3b8d99;
+            color: #fff;
+        }
+        .hp_btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .hp_btn {
+            background: #3b8d99;
+            border: 1px solid #3b8d99;
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .hp_btn:hover {
+            background: #2c7180;
+            border-color: #2c7180;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(59, 141, 153, 0.35);
+        }
+        .hp_btn.hp_send {
+            background: #2b7de9;
+            border-color: #2b7de9;
+        }
+        .hp_btn.hp_send:hover {
+            background: #1f66c3;
+            border-color: #1f66c3;
+            box-shadow: 0 6px 14px rgba(43, 125, 233, 0.35);
+        }
+        .hp_btn.hp_gray {
+            background: #eef6f7;
+            border-color: #d6e8eb;
+            color: #3b8d99;
+        }
+        .hp_btn.hp_gray:hover {
+            background: #dceef0;
+            border-color: #c3e0e5;
+            color: #2c7180;
+            box-shadow: none;
+        }
+        .hp_btn:disabled {
+            background: #b9cfd3;
+            border-color: #b9cfd3;
+            color: #fff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .hp_status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #5f7f88;
+        }
+        .hp_code {
+            font-family: Consolas, "Courier New", monospace;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            background: #eef6f7;
+            color: #5f7f88;
+        }
+        .hp_code.hp_ok {
+            background: #e7f6ec;
+            color: #1f8a3f;
+        }
+        .hp_code.hp_warn {
+            background: #fff3e0;
+            color: #c76a12;
+        }
+        .hp_code.hp_bad {
+            background: #fdeaef;
+            color: #c02b52;
+        }
+        .hp_error {
+            display: none;
+            background: #fff1f4;
+            border: 1px solid #f6c9d5;
+            color: #b5294d;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+        .hp_error b {
+            color: #8c1c3c;
+        }
+        .hp_tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .hp_tab {
+            font-size: 13px;
+            color: #7a9aa3;
+            background: #fff;
+            border: 1px solid #e4eef1;
+            border-radius: 999px;
+            padding: 5px 14px;
+            cursor: pointer;
+        }
+        .hp_tab.hp_on {
+            background: #3b8d99;
+            border-color: #3b8d99;
+            color: #fff;
+        }
+        .hp_out {
+            display: none;
+            background: #173f4f;
+            color: #d7eef1;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            max-height: 420px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .hp_out.hp_on {
+            display: block;
+        }
+        .hp_out .hp_key {
+            color: #9cdcfe;
+        }
+        .hp_out .hp_str {
+            color: #ce9178;
+        }
+        .hp_out .hp_num {
+            color: #b5cea8;
+        }
+        .hp_out .hp_bool {
+            color: #569cd6;
+        }
+        .hp_out .hp_hkey {
+            color: #ffd479;
+        }
+        .hp_empty {
+            color: #9db8bf;
+            font-size: 13px;
+            padding: 24px 0;
+            text-align: center;
+        }
+        .hp_note {
+            margin-top: 16px;
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #5f7f88;
+            line-height: 1.9;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 16px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+        @media (max-width: 820px) {
+            .hp_cols {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>远程数据接口测试工具</h1>
+            <p>使用原生 fetch 发送 GET / POST / PUT / PATCH / DELETE 请求，实时查看返回数据与错误提示</p>
+            <code>示例接口：https://jsonplaceholder.typicode.com/posts</code>
+        </div>
+
+        <div class="hp_main">
+            <div class="hp_cols">
+                <div class="hp_panel">
+                    <h2>一、请求设置</h2>
+                    <div class="hp_presets" id="hp_presets">
+                        <span class="hp_tag" data-hp="getList">GET 列表</span>
+                        <span class="hp_tag" data-hp="getOne">GET 单条</span>
+                        <span class="hp_tag" data-hp="post">POST 新增</span>
+                        <span class="hp_tag" data-hp="put">PUT 修改</span>
+                        <span class="hp_tag" data-hp="delete">DELETE 删除</span>
+                    </div>
+                    <div class="hp_field">
+                        <label>请求地址 URL</label>
+                        <div class="hp_line">
+                            <select class="hp_method" id="hp_method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                            <input type="text" id="hp_url" value="https://jsonplaceholder.typicode.com/posts">
+                        </div>
+                    </div>
+                    <div class="hp_field">
+                        <label>请求头 Headers（JSON 格式）</label>
+                        <textarea id="hp_headers">{
+  "Content-Type": "application/json"
+}</textarea>
+                    </div>
+                    <div class="hp_field">
+                        <label>请求体 Body（GET / DELETE 不发送）</label>
+                        <textarea id="hp_body">{
+  "title": "高级网页设计",
+  "body": "使用 fetch 测试远程接口",
+  "userId": 1
+}</textarea>
+                    </div>
+                    <div class="hp_btns">
+                        <button class="hp_btn hp_send" id="hp_send">发送请求</button>
+                        <button class="hp_btn hp_gray" id="hp_clear">清空结果</button>
+                    </div>
+                </div>
+
+                <div class="hp_panel">
+                    <h2>二、返回结果</h2>
+                    <div class="hp_status">
+                        <span class="hp_code" id="hp_code">--</span>
+                        <span>耗时：<b id="hp_time">0</b> ms</span>
+                        <span>大小：<b id="hp_size">0</b> B</span>
+                        <span>状态：<b id="hp_state">尚未发送请求</b></span>
+                    </div>
+                    <div class="hp_error" id="hp_error"></div>
+                    <div class="hp_tabs" id="hp_tabs">
+                        <span class="hp_tab hp_on" data-hp="body">响应数据</span>
+                        <span class="hp_tab" data-hp="head">响应头</span>
+                        <span class="hp_tab" data-hp="req">请求信息</span>
+                    </div>
+                    <div class="hp_out hp_on" id="hp_outBody">点击“发送请求”后，这里显示接口返回的数据</div>
+                    <div class="hp_out" id="hp_outHead">暂无响应头信息</div>
+                    <div class="hp_out" id="hp_outReq">暂无请求信息</div>
+                </div>
+            </div>
+
+            <div class="hp_note">
+                提示：① 该示例接口为公开的测试接口，支持跨域（CORS），POST / PUT 返回的是模拟创建结果，不会真正写入服务器；
+                ② 若地址填写错误、网络不通或接口未开启跨域，会在“返回结果”区域显示红色的错误提示；
+                ③ 请求超过 10 秒未完成会自动中断并提示“请求超时”。
+            </div>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_methodEl = document.getElementById('hp_method');
+        var hp_urlEl = document.getElementById('hp_url');
+        var hp_headersEl = document.getElementById('hp_headers');
+        var hp_bodyEl = document.getElementById('hp_body');
+        var hp_sendEl = document.getElementById('hp_send');
+        var hp_clearEl = document.getElementById('hp_clear');
+        var hp_codeEl = document.getElementById('hp_code');
+        var hp_timeEl = document.getElementById('hp_time');
+        var hp_sizeEl = document.getElementById('hp_size');
+        var hp_stateEl = document.getElementById('hp_state');
+        var hp_errorEl = document.getElementById('hp_error');
+        var hp_outBody = document.getElementById('hp_outBody');
+        var hp_outHead = document.getElementById('hp_outHead');
+        var hp_outReq = document.getElementById('hp_outReq');
+
+        function hp_escape(hp_str) {
+            return String(hp_str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function hp_highlight(hp_txt) {
+            var hp_s = hp_escape(hp_txt);
+            hp_s = hp_s.replace(/(&quot;[^\n]*?&quot;)(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?)/g, function (hp_m, hp_str, hp_colon, hp_bool, hp_num) {
+                var hp_cls = 'hp_num';
+                if (hp_str) {
+                    hp_cls = hp_colon ? 'hp_key' : 'hp_str';
+                } else if (hp_bool) {
+                    hp_cls = 'hp_bool';
+                }
+                return '<span class="' + hp_cls + '">' + hp_m + '</span>';
+            });
+            return hp_s;
+        }
+
+        function hp_showError(hp_title, hp_detail, hp_tip) {
+            hp_errorEl.style.display = 'block';
+            hp_errorEl.innerHTML = '<b>' + hp_escape(hp_title) + '</b>：' + hp_escape(hp_detail) +
+                '<br><span style="color:#c75c81;">' + hp_escape(hp_tip) + '</span>';
+        }
+
+        function hp_hideError() {
+            hp_errorEl.style.display = 'none';
+            hp_errorEl.innerHTML = '';
+        }
+
+        function hp_setCode(hp_status, hp_text) {
+            hp_codeEl.className = 'hp_code';
+            hp_codeEl.innerHTML = hp_status === 0 ? 'ERROR' : hp_status + ' ' + hp_text;
+            if (hp_status >= 200 && hp_status < 300) {
+                hp_codeEl.className = 'hp_code hp_ok';
+            } else if (hp_status >= 300 && hp_status < 500) {
+                hp_codeEl.className = 'hp_code hp_warn';
+            } else if (hp_status >= 500) {
+                hp_codeEl.className = 'hp_code hp_bad';
+            } else if (hp_status === 0) {
+                hp_codeEl.className = 'hp_code hp_bad';
+            }
+        }
+
+        function hp_send() {
+            var hp_method = hp_methodEl.value;
+            var hp_url = hp_urlEl.value.trim();
+
+            if (hp_url === '') {
+                hp_showError('请求地址为空', '请先填写要测试的接口地址', '示例：https://jsonplaceholder.typicode.com/posts');
+                return;
+            }
+            if (hp_url.indexOf('http://') !== 0 && hp_url.indexOf('https://') !== 0) {
+                hp_showError('地址格式错误', 'URL 必须以 http:// 或 https:// 开头', '当前填写：' + hp_url);
+                return;
+            }
+
+            var hp_headers = {};
+            if (hp_headersEl.value.trim() !== '') {
+                try {
+                    hp_headers = JSON.parse(hp_headersEl.value);
+                } catch (hp_e) {
+                    hp_showError('请求头格式错误', 'Headers 必须是合法的 JSON：' + hp_e.message, '示例：{ "Content-Type": "application/json" }');
+                    return;
+                }
+            }
+
+            var hp_body = '';
+            var hp_hasBody = (hp_method === 'POST' || hp_method === 'PUT' || hp_method === 'PATCH');
+            if (hp_hasBody) {
+                hp_body = hp_bodyEl.value;
+                if (hp_body.trim() !== '') {
+                    try {
+                        JSON.parse(hp_body);
+                    } catch (hp_e2) {
+                        hp_showError('请求体格式错误', 'Body 必须是合法的 JSON：' + hp_e2.message, '若为表单数据，可在 Headers 中改用 application/x-www-form-urlencoded');
+                        return;
+                    }
+                }
+            }
+
+            hp_hideError();
+            hp_sendEl.disabled = true;
+            hp_stateEl.innerHTML = '请求发送中……';
+            hp_outBody.innerHTML = '<span class="hp_empty">正在请求 ' + hp_escape(hp_url) + ' ……</span>';
+
+            var hp_option = { method: hp_method, headers: hp_headers };
+            if (hp_hasBody && hp_body.trim() !== '') {
+                hp_option.body = hp_body;
+            }
+
+            hp_outReq.innerHTML = hp_escape(hp_method + ' ' + hp_url) + '\n' +
+                '<span class="hp_hkey">Headers</span>：' + hp_escape(JSON.stringify(hp_headers)) +
+                (hp_option.body ? '\n<span class="hp_hkey">Body</span>：' + hp_escape(hp_option.body) : '\n<span class="hp_hkey">Body</span>：（无）');
+
+            var hp_start = new Date().getTime();
+            var hp_ctrl = null;
+            var hp_timer = null;
+            if (typeof AbortController !== 'undefined') {
+                hp_ctrl = new AbortController();
+                hp_option.signal = hp_ctrl.signal;
+                hp_timer = setTimeout(function () {
+                    hp_ctrl.abort();
+                }, 10000);
+            }
+
+            fetch(hp_url, hp_option).then(function (hp_res) {
+                var hp_status = hp_res.status;
+                var hp_statusText = hp_res.statusText;
+
+                var hp_headHtml = '';
+                hp_res.headers.forEach(function (hp_val, hp_key) {
+                    hp_headHtml += '<span class="hp_hkey">' + hp_escape(hp_key) + '</span>：' + hp_escape(hp_val) + '\n';
+                });
+                hp_outHead.innerHTML = hp_headHtml === '' ? '<span class="hp_empty">该响应未返回响应头</span>' : hp_headHtml;
+
+                return hp_res.text().then(function (hp_text) {
+                    hp_timeEl.innerHTML = new Date().getTime() - hp_start;
+                    hp_sizeEl.innerHTML = hp_text.length;
+                    hp_setCode(hp_status, hp_statusText);
+
+                    var hp_isJson = false;
+                    try {
+                        var hp_obj = JSON.parse(hp_text);
+                        hp_outBody.innerHTML = hp_highlight(JSON.stringify(hp_obj, null, 2));
+                        hp_isJson = true;
+                    } catch (hp_e3) {
+                        hp_outBody.innerHTML = hp_escape(hp_text);
+                    }
+
+                    if (hp_status >= 400) {
+                        hp_stateEl.innerHTML = '请求完成，但接口返回错误状态码';
+                        hp_showError('接口返回错误', 'HTTP ' + hp_status + ' ' + hp_statusText,
+                            '请检查请求地址、请求方式或参数是否正确');
+                    } else {
+                        hp_stateEl.innerHTML = '请求成功（' + (hp_isJson ? 'JSON 数据' : '文本数据') + '）';
+                    }
+                });
+            }).catch(function (hp_err) {
+                hp_timeEl.innerHTML = new Date().getTime() - hp_start;
+                hp_setCode(0, '');
+                hp_stateEl.innerHTML = '请求失败';
+                hp_outHead.innerHTML = '<span class="hp_empty">未获取到响应头</span>';
+                hp_outBody.innerHTML = '<span class="hp_empty">无返回数据</span>';
+
+                var hp_msg = hp_err && hp_err.message ? hp_err.message : String(hp_err);
+                if (hp_err && hp_err.name === 'AbortError') {
+                    hp_showError('请求超时', '10 秒内未收到接口响应，请求已中断', '可能是网络较慢或接口不可用，请稍后重试');
+                } else if (hp_msg.indexOf('Failed to fetch') > -1 || hp_msg.indexOf('NetworkError') > -1) {
+                    hp_showError('网络错误 / 跨域被拦截', hp_msg,
+                        '请检查网络是否可用、接口是否支持 CORS，或用 F12 查看 Console / Network 面板');
+                } else {
+                    hp_showError('请求异常', hp_msg, '请检查请求地址与参数后重试');
+                }
+            }).then(function () {
+                if (hp_timer !== null) {
+                    clearTimeout(hp_timer);
+                }
+                hp_sendEl.disabled = false;
+            });
+        }
+
+        var hp_presets = {
+            getList: { hp_method: 'GET', hp_url: 'https://jsonplaceholder.typicode.com/posts', hp_body: '' },
+            getOne: { hp_method: 'GET', hp_url: 'https://jsonplaceholder.typicode.com/posts/1', hp_body: '' },
+            post: {
+                hp_method: 'POST',
+                hp_url: 'https://jsonplaceholder.typicode.com/posts',
+                hp_body: '{\n  "title": "高级网页设计",\n  "body": "使用 fetch 发送 POST 请求",\n  "userId": 1\n}'
+            },
+            put: {
+                hp_method: 'PUT',
+                hp_url: 'https://jsonplaceholder.typicode.com/posts/1',
+                hp_body: '{\n  "id": 1,\n  "title": "已修改的标题",\n  "body": "使用 fetch 发送 PUT 请求",\n  "userId": 1\n}'
+            },
+            delete: { hp_method: 'DELETE', hp_url: 'https://jsonplaceholder.typicode.com/posts/1', hp_body: '' }
+        };
+
+        document.getElementById('hp_presets').addEventListener('click', function (hp_e) {
+            var hp_target = hp_e.target;
+            if (hp_target.className.indexOf('hp_tag') === -1) {
+                return;
+            }
+            var hp_key = hp_target.getAttribute('data-hp');
+            var hp_p = hp_presets[hp_key];
+            hp_methodEl.value = hp_p.hp_method;
+            hp_urlEl.value = hp_p.hp_url;
+            hp_bodyEl.value = hp_p.hp_body;
+            hp_hideError();
+            hp_stateEl.innerHTML = '已载入示例，点击“发送请求”测试';
+        });
+
+        document.getElementById('hp_tabs').addEventListener('click', function (hp_e) {
+            var hp_target = hp_e.target;
+            if (hp_target.className.indexOf('hp_tab') === -1) {
+                return;
+            }
+            var hp_tabs = document.querySelectorAll('.hp_tab');
+            for (var hp_i = 0; hp_i < hp_tabs.length; hp_i++) {
+                hp_tabs[hp_i].className = 'hp_tab';
+            }
+            hp_target.className = 'hp_tab hp_on';
+
+            var hp_key = hp_target.getAttribute('data-hp');
+            hp_outBody.className = 'hp_out';
+            hp_outHead.className = 'hp_out';
+            hp_outReq.className = 'hp_out';
+            if (hp_key === 'body') {
+                hp_outBody.className = 'hp_out hp_on';
+            } else if (hp_key === 'head') {
+                hp_outHead.className = 'hp_out hp_on';
+            } else {
+                hp_outReq.className = 'hp_out hp_on';
+            }
+        });
+
+        hp_sendEl.addEventListener('click', hp_send);
+
+        hp_clearEl.addEventListener('click', function () {
+            hp_hideError();
+            hp_codeEl.className = 'hp_code';
+            hp_codeEl.innerHTML = '--';
+            hp_timeEl.innerHTML = '0';
+            hp_sizeEl.innerHTML = '0';
+            hp_stateEl.innerHTML = '结果已清空';
+            hp_outBody.innerHTML = '<span class="hp_empty">点击“发送请求”后，这里显示接口返回的数据</span>';
+            hp_outHead.innerHTML = '<span class="hp_empty">暂无响应头信息</span>';
+            hp_outReq.innerHTML = '<span class="hp_empty">暂无请求信息</span>';
+        });
+    </script>
+</body>
+</html>

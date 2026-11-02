@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<!--
+姓名：郝品
+日期：2026-11-02
+使用的大模型：deepseek-v4-pro
+功能名称：Promise 与 async/await 异步操作演示（包饺子流程）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17-6 · Promise 与 async/await 异步演示</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", "Segoe UI", sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 40px 16px;
+        }
+        .hp_container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .hp_header {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 55%, #5f9ea0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 34px 24px 28px;
+        }
+        .hp_header h1 {
+            font-size: 25px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hp_header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.8;
+        }
+        .hp_main {
+            padding: 26px 28px 40px;
+        }
+        .hp_main h2 {
+            font-size: 18px;
+            color: #173f4f;
+            margin: 24px 0 12px;
+            padding-left: 12px;
+            border-left: 5px solid #3b8d99;
+        }
+        .hp_main h2:first-child {
+            margin-top: 0;
+        }
+        .hp_code {
+            background: #173f4f;
+            color: #d7eef1;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre;
+            margin-bottom: 12px;
+        }
+        .hp_code .hp_kw { color: #ffd479; }
+        .hp_code .hp_fn { color: #7fd8c8; }
+        .hp_code .hp_cmt { color: #7a9aa3; }
+        .hp_code .hp_str { color: #ce9178; }
+        .hp_btn_bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .hp_btn {
+            background: #3b8d99;
+            border: 1px solid #3b8d99;
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .hp_btn:hover {
+            background: #2c7180;
+            border-color: #2c7180;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(59, 141, 153, 0.35);
+        }
+        .hp_btn.hp_alt {
+            background: #eef6f7;
+            border-color: #d6e8eb;
+            color: #3b8d99;
+        }
+        .hp_btn.hp_alt:hover {
+            background: #3b8d99;
+            border-color: #3b8d99;
+            color: #fff;
+        }
+        .hp_btn.hp_reset {
+            background: #fff3e0;
+            border-color: #f0d7a6;
+            color: #d98324;
+        }
+        .hp_btn.hp_reset:hover {
+            background: #e2762b;
+            border-color: #e2762b;
+            color: #fff;
+        }
+        .hp_btn:disabled {
+            background: #b9cfd3;
+            border-color: #b9cfd3;
+            color: #fff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .hp_flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .hp_step {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f6fbfc;
+            border: 1px solid #e4eef1;
+            border-radius: 12px;
+            padding: 13px 16px;
+            transition: all 0.3s;
+        }
+        .hp_step.hp_run {
+            border-color: #d9a326;
+            background: #fffaf0;
+            box-shadow: 0 0 0 4px rgba(217, 163, 38, 0.12);
+        }
+        .hp_step.hp_done {
+            border-color: #2ba84a;
+            background: #f1fbf3;
+        }
+        .hp_num {
+            flex: none;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #e4eef1;
+            color: #3b8d99;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .hp_step.hp_run .hp_num {
+            background: #f7e3b2;
+            color: #b27a0a;
+        }
+        .hp_step.hp_done .hp_num {
+            background: #cfeeda;
+            color: #1f7a33;
+        }
+        .hp_step_body {
+            flex: 1;
+            min-width: 0;
+        }
+        .hp_step_name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #173f4f;
+        }
+        .hp_step_meta {
+            font-size: 12px;
+            color: #9db8bf;
+            margin-top: 2px;
+        }
+        .hp_status {
+            flex: none;
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 999px;
+            background: #eef1f2;
+            color: #9db8bf;
+            white-space: nowrap;
+        }
+        .hp_step.hp_run .hp_status {
+            background: #f7e3b2;
+            color: #b27a0a;
+            animation: hp_pulse 1s ease infinite;
+        }
+        .hp_step.hp_done .hp_status {
+            background: #cfeeda;
+            color: #1f7a33;
+        }
+        .hp_arrow {
+            text-align: center;
+            color: #b9cfd3;
+            font-size: 16px;
+            line-height: 1.4;
+            padding: 4px 0;
+        }
+        .hp_parallel {
+            border: 1px dashed #b9cfd3;
+            border-radius: 14px;
+            padding: 12px;
+            background: #fbfdfe;
+        }
+        .hp_parallel_label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #3b8d99;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .hp_parallel_label .iconfont {
+            font-size: 14px;
+        }
+        .hp_parallel_row {
+            display: flex;
+            gap: 12px;
+        }
+        .hp_parallel_row .hp_step {
+            flex: 1;
+        }
+        .hp_log {
+            background: #10242b;
+            color: #d7eef1;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.9;
+            height: 280px;
+            overflow-y: auto;
+            border-left: 4px solid #5f9ea0;
+        }
+        .hp_log_item {
+            display: flex;
+            gap: 12px;
+        }
+        .hp_log_time {
+            flex: none;
+            color: #7a9aa3;
+            width: 46px;
+        }
+        .hp_log_item b { color: #ffd479; }
+        .hp_log_item.hp_done { color: #9ff3d2; }
+        .hp_log_item.hp_start { color: #9cdcfe; }
+        .hp_log_item.hp_success {
+            color: #2ba84a;
+            font-weight: 700;
+        }
+        .hp_finish {
+            display: none;
+            margin-top: 14px;
+            background: #f1fbf3;
+            border: 1px solid #bfe6c8;
+            color: #1f7a33;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .hp_footer {
+            text-align: center;
+            padding: 16px 24px;
+            background: #f0f7f8;
+            color: #5f7f88;
+            font-size: 13px;
+            border-top: 1px solid #e0edef;
+        }
+        @keyframes hp_pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @media (max-width: 640px) {
+            .hp_parallel_row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hp_container">
+        <div class="hp_header">
+            <h1>Promise 与 async/await 异步演示</h1>
+            <p>用「包饺子」流程演示 JavaScript 异步操作：先买原料，再并行备料，最后依次包、煮、吃</p>
+        </div>
+
+        <div class="hp_main">
+            <h2>一、Promise 链式调用写法</h2>
+            <div class="hp_code"><span class="hp_cmt">// 每一步返回一个 Promise，用 .then 串联，Promise.all 让两件事并行</span>
+<span class="hp_fn">hp_buy</span>()
+  .<span class="hp_kw">then</span>(<span class="hp_kw">function</span> () {
+    <span class="hp_kw">return</span> <span class="hp_fn">Promise</span>.all([ <span class="hp_cmt">// 原料买好后，两组人同时开工</span>
+      <span class="hp_fn">hp_dough</span>(),     <span class="hp_cmt">// ① 和面擀皮</span>
+      <span class="hp_fn">hp_filling</span>()   <span class="hp_cmt">// ② 和肉馅</span>
+    ]);
+  })
+  .<span class="hp_kw">then</span>(<span class="hp_kw">function</span> () { <span class="hp_kw">return</span> <span class="hp_fn">hp_wrap</span>(); })  <span class="hp_cmt">// ③ 包饺子</span>
+  .<span class="hp_kw">then</span>(<span class="hp_kw">function</span> () { <span class="hp_kw">return</span> <span class="hp_fn">hp_boil</span>(); })  <span class="hp_cmt">// ④ 煮饺子</span>
+  .<span class="hp_kw">then</span>(<span class="hp_kw">function</span> () { <span class="hp_kw">return</span> <span class="hp_fn">hp_eat</span>(); })   <span class="hp_cmt">// ⑤ 吃饺子</span>
+  .<span class="hp_kw">catch</span>(<span class="hp_kw">function</span> (e) { console.error(e); });</div>
+
+            <h2>二、async / await 写法</h2>
+            <div class="hp_code"><span class="hp_cmt">// async 函数内部用 await 依次等待，逻辑更接近同步写法</span>
+<span class="hp_kw">async</span> <span class="hp_kw">function</span> <span class="hp_fn">hp_runAsync</span>() {
+  <span class="hp_kw">await</span> <span class="hp_fn">hp_buy</span>();                        <span class="hp_cmt">// ① 先买原料</span>
+  <span class="hp_kw">await</span> <span class="hp_fn">Promise</span>.all([                 <span class="hp_cmt">// ② 两件事并行</span>
+    <span class="hp_fn">hp_dough</span>(),                    <span class="hp_cmt">//    和面擀皮</span>
+    <span class="hp_fn">hp_filling</span>()                   <span class="hp_cmt">//    和肉馅</span>
+  ]);
+  <span class="hp_kw">await</span> <span class="hp_fn">hp_wrap</span>();                       <span class="hp_cmt">// ③ 包饺子</span>
+  <span class="hp_kw">await</span> <span class="hp_fn">hp_boil</span>();                       <span class="hp_cmt">// ④ 煮饺子</span>
+  <span class="hp_kw">await</span> <span class="hp_fn">hp_eat</span>();                        <span class="hp_cmt">// ⑤ 吃饺子</span>
+}</div>
+
+            <h2>三、流程演示</h2>
+            <div class="hp_btn_bar">
+                <button class="hp_btn" id="hp_runPromise">用 Promise 方式演示</button>
+                <button class="hp_btn hp_alt" id="hp_runAsync">用 async/await 方式演示</button>
+                <button class="hp_btn hp_reset" id="hp_reset">重置</button>
+            </div>
+
+            <div class="hp_flow">
+                <div class="hp_step" id="hp_buy">
+                    <div class="hp_num">1</div>
+                    <div class="hp_step_body">
+                        <div class="hp_step_name">买原料</div>
+                        <div class="hp_step_meta">去市场买面粉、猪肉、蔬菜等</div>
+                    </div>
+                    <div class="hp_status">等待</div>
+                </div>
+                <div class="hp_arrow">↓</div>
+                <div class="hp_parallel">
+                    <div class="hp_parallel_label"><i class="iconfont icon-shequ1"></i>并行执行 · Promise.all（两组人同时开工）</div>
+                    <div class="hp_parallel_row">
+                        <div class="hp_step" id="hp_dough">
+                            <div class="hp_num">2a</div>
+                            <div class="hp_step_body">
+                                <div class="hp_step_name">和面擀皮</div>
+                                <div class="hp_step_meta">一组人揉面、擀饺子皮</div>
+                            </div>
+                            <div class="hp_status">等待</div>
+                        </div>
+                        <div class="hp_step" id="hp_filling">
+                            <div class="hp_num">2b</div>
+                            <div class="hp_step_body">
+                                <div class="hp_step_name">和肉馅</div>
+                                <div class="hp_step_meta">一组人剁肉、调馅</div>
+                            </div>
+                            <div class="hp_status">等待</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hp_arrow">↓（两组都完成后）</div>
+                <div class="hp_step" id="hp_wrap">
+                    <div class="hp_num">3</div>
+                    <div class="hp_step_body">
+                        <div class="hp_step_name">包饺子</div>
+                        <div class="hp_step_meta">皮和馅都备好，开始包饺子</div>
+                    </div>
+                    <div class="hp_status">等待</div>
+                </div>
+                <div class="hp_arrow">↓</div>
+                <div class="hp_step" id="hp_boil">
+                    <div class="hp_num">4</div>
+                    <div class="hp_step_body">
+                        <div class="hp_step_name">煮饺子</div>
+                        <div class="hp_step_meta">水开下锅，煮到浮起</div>
+                    </div>
+                    <div class="hp_status">等待</div>
+                </div>
+                <div class="hp_arrow">↓</div>
+                <div class="hp_step" id="hp_eat">
+                    <div class="hp_num">5</div>
+                    <div class="hp_step_body">
+                        <div class="hp_step_name">吃饺子</div>
+                        <div class="hp_step_meta">出锅装盘，开吃</div>
+                    </div>
+                    <div class="hp_status">等待</div>
+                </div>
+            </div>
+
+            <div class="hp_finish" id="hp_finish">全部流程完成！热腾腾的饺子出锅，开吃啦！</div>
+
+            <h2>四、运行日志</h2>
+            <div class="hp_log" id="hp_log"></div>
+        </div>
+
+        <div class="hp_footer">
+            © 2026 郝品 | 高级网页设计课程作业
+        </div>
+    </div>
+
+    <script>
+        var hp_logEl = document.getElementById('hp_log');
+        var hp_finishEl = document.getElementById('hp_finish');
+        var hp_btnPromise = document.getElementById('hp_runPromise');
+        var hp_btnAsync = document.getElementById('hp_runAsync');
+        var hp_btnReset = document.getElementById('hp_reset');
+
+        var hp_steps = {
+            hp_buy: { name: '买原料', ms: 1500 },
+            hp_dough: { name: '和面擀皮', ms: 2000 },
+            hp_filling: { name: '和肉馅', ms: 2500 },
+            hp_wrap: { name: '包饺子', ms: 2000 },
+            hp_boil: { name: '煮饺子', ms: 1500 },
+            hp_eat: { name: '吃饺子', ms: 1000 }
+        };
+
+        var hp_startTime = 0;
+        var hp_running = false;
+
+        function hp_ts() {
+            return ((performance.now() - hp_startTime) / 1000).toFixed(1) + 's';
+        }
+
+        function hp_log(msg, type) {
+            var hp_el = document.createElement('div');
+            hp_el.className = 'hp_log_item' + (type ? ' ' + type : '');
+            hp_el.innerHTML = '<span class="hp_log_time">' + hp_ts() + '</span><span>' + msg + '</span>';
+            hp_logEl.appendChild(hp_el);
+            hp_logEl.scrollTop = hp_logEl.scrollHeight;
+        }
+
+        function hp_setStep(id, state) {
+            var hp_el = document.getElementById(id);
+            if (!hp_el) { return; }
+            hp_el.className = 'hp_step' + (state ? ' ' + state : '');
+            var hp_badge = hp_el.querySelector('.hp_status');
+            if (hp_badge) {
+                if (state === 'hp_run') { hp_badge.textContent = '进行中'; }
+                else if (state === 'hp_done') { hp_badge.textContent = '完成'; }
+                else { hp_badge.textContent = '等待'; }
+            }
+        }
+
+        function hp_setRunning(hp_val) {
+            hp_running = hp_val;
+            hp_btnPromise.disabled = hp_val;
+            hp_btnAsync.disabled = hp_val;
+            hp_btnReset.disabled = hp_val;
+        }
+
+        function hp_reset() {
+            hp_logEl.innerHTML = '';
+            hp_finishEl.style.display = 'none';
+            for (var hp_key in hp_steps) {
+                if (hp_steps.hasOwnProperty(hp_key)) {
+                    hp_setStep(hp_key, '');
+                }
+            }
+            hp_log('<b>已重置</b>，点击上方按钮开始演示。');
+        }
+
+        function hp_step(id) {
+            var hp_info = hp_steps[id];
+            return new Promise(function (hp_resolve) {
+                hp_setStep(id, 'hp_run');
+                hp_log('<b>开始</b> ' + hp_info.name + '（预计 ' + (hp_info.ms / 1000) + ' 秒）', 'hp_start');
+                setTimeout(function () {
+                    hp_setStep(id, 'hp_done');
+                    hp_log('<b>完成</b> ' + hp_info.name + '（耗时 ' + (hp_info.ms / 1000) + ' 秒）', 'hp_done');
+                    hp_resolve();
+                }, hp_info.ms);
+            });
+        }
+
+        function hp_buy() { return hp_step('hp_buy'); }
+        function hp_dough() { return hp_step('hp_dough'); }
+        function hp_filling() { return hp_step('hp_filling'); }
+        function hp_wrap() { return hp_step('hp_wrap'); }
+        function hp_boil() { return hp_step('hp_boil'); }
+        function hp_eat() { return hp_step('hp_eat'); }
+
+        function hp_finish() {
+            hp_log('<b>流程结束</b>：热腾腾的饺子出锅啦！', 'hp_success');
+            hp_finishEl.style.display = 'block';
+            hp_setRunning(false);
+        }
+
+        function hp_runPromise() {
+            hp_reset();
+            hp_log('使用 <b>Promise 链式调用</b> 开始演示……');
+            hp_startTime = performance.now();
+            hp_setRunning(true);
+            hp_buy()
+                .then(function () {
+                    hp_log('原料买好了，开始 <b>并行</b> 备料（Promise.all）……');
+                    return Promise.all([hp_dough(), hp_filling()]);
+                })
+                .then(function () {
+                    hp_log('皮和馅都备好了，开始包饺子……');
+                    return hp_wrap();
+                })
+                .then(function () { return hp_boil(); })
+                .then(function () { return hp_eat(); })
+                .then(function () { hp_finish(); })
+                .catch(function (hp_e) {
+                    hp_log('出错了：' + hp_e.message);
+                    hp_setRunning(false);
+                });
+        }
+
+        function hp_runAsync() {
+            hp_reset();
+            hp_log('使用 <b>async / await</b> 开始演示……');
+            hp_startTime = performance.now();
+            hp_setRunning(true);
+            hp_asyncFlow().then(function () {
+                hp_finish();
+            }).catch(function (hp_e) {
+                hp_log('出错了：' + hp_e.message);
+                hp_setRunning(false);
+            });
+        }
+
+        async function hp_asyncFlow() {
+            await hp_buy();
+            hp_log('原料买好了，开始 <b>并行</b> 备料（Promise.all）……');
+            await Promise.all([hp_dough(), hp_filling()]);
+            hp_log('皮和馅都备好了，开始包饺子……');
+            await hp_wrap();
+            await hp_boil();
+            await hp_eat();
+        }
+
+        hp_btnPromise.addEventListener('click', hp_runPromise);
+        hp_btnAsync.addEventListener('click', hp_runAsync);
+        hp_btnReset.addEventListener('click', function () {
+            if (!hp_running) { hp_reset(); }
+        });
+
+        hp_reset();
+    </script>
+</body>
+</html>
